@@ -1,0 +1,180 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/plus-jakarta-sans";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Token warna Mr. Tea & Jasuke
+  - kertas  : latar netral sedikit kehijauan, bukan krem
+  - tinta   : teks utama hijau sangat gelap
+  - teh     : warna primer, seduhan teh pekat
+  - jagung  : aksen terbatas, hanya untuk nota PoS dan penanda shift aktif
+*/
+:root {
+  --radius: 0.5rem;
+
+  --kertas: #f6f7f4;
+  --tinta: #1b2420;
+  --teh: #8a3b12;
+  --teh-tua: #6e2d0c;
+  --teh-muda: #f6e7dc;
+  --jagung: #f2b705;
+  --jagung-muda: #fff3c4;
+
+  --ok: #1f7a4d;
+  --ok-muda: #ddf1e5;
+  --warn: #9a5800;
+  --warn-muda: #fdf0d5;
+  --bahaya: #b42318;
+  --bahaya-muda: #fde4e1;
+  --info: #1e4fa3;
+  --info-muda: #e2eafa;
+
+  /* Kanal Shopee Food: oranye bata agar beda dari teh, dengan teks putih tetap AA */
+  --shopee: #b2410f;
+  --shopee-muda: #fff0e6;
+
+  --background: var(--kertas);
+  --foreground: var(--tinta);
+  --card: #ffffff;
+  --card-foreground: var(--tinta);
+  --popover: #ffffff;
+  --popover-foreground: var(--tinta);
+  --primary: var(--teh);
+  --primary-foreground: #fff8f0;
+  --secondary: #eceee8;
+  --secondary-foreground: var(--tinta);
+  --muted: #eceee8;
+  --muted-foreground: #58635d;
+  --accent: #e6e9e1;
+  --accent-foreground: var(--tinta);
+  --destructive: var(--bahaya);
+  --border: #dadfd6;
+  --input: #c9d0c4;
+  --ring: var(--teh);
+}
+
+@theme inline {
+  --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-tinta: var(--tinta);
+  --color-kertas: var(--kertas);
+  --color-teh: var(--teh);
+  --color-teh-tua: var(--teh-tua);
+  --color-teh-muda: var(--teh-muda);
+  --color-jagung: var(--jagung);
+  --color-jagung-muda: var(--jagung-muda);
+  --color-ok: var(--ok);
+  --color-ok-muda: var(--ok-muda);
+  --color-warn: var(--warn);
+  --color-warn-muda: var(--warn-muda);
+  --color-bahaya: var(--bahaya);
+  --color-bahaya-muda: var(--bahaya-muda);
+  --color-info: var(--info);
+  --color-info-muda: var(--info-muda);
+  --color-shopee: var(--shopee);
+  --color-shopee-muda: var(--shopee-muda);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01";
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@utility num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum", "ss01";
+}
+
+/* Tepi bawah nota bergerigi, satu-satunya ornamen di aplikasi */
+@utility nota-edge {
+  --gigi: 10px;
+  mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--gigi)) no-repeat,
+    radial-gradient(circle at 50% 100%, transparent calc(var(--gigi) / 2 - 0.5px), #000 calc(var(--gigi) / 2))
+      bottom / var(--gigi) var(--gigi) repeat-x;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* driver.js disesuaikan dengan token aplikasi */
+.driver-popover {
+  font-family: var(--font-sans);
+  border-radius: 12px;
+  color: var(--tinta);
+}
+.driver-popover-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+.driver-popover-description {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.driver-popover-footer button {
+  font-family: var(--font-sans);
+  border-radius: 6px;
+  text-shadow: none;
+}
+.driver-popover-next-btn {
+  background: var(--teh) !important;
+  color: #fff8f0 !important;
+  border-color: var(--teh) !important;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .print-full {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+}
