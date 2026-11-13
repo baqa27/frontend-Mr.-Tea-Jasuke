@@ -115,7 +115,8 @@ function cekMenu(db: Db, body: any, id?: string) {
   return {
     nama, kategori: body.kategori, harga: { toko: body.harga.toko, shopee_food: body.harga.shopee_food ?? null },
     aktif: body.aktif ?? true, sumberTakaran: body.sumberTakaran ?? "asumsi",
-    takaran: body.takaran.map((t: any) => ({ bahanId: t.bahanId, jumlahPerPorsi: Number(t.jumlahPerPorsi) })),
+    bisaAturGula: body.bisaAturGula ?? body.kategori !== "lainnya", fotoUrl: body.fotoUrl,
+    takaran: body.takaran.map((t: any) => ({ bahanId: t.bahanId, jumlahPerPorsi: Number(t.jumlahPerPorsi) })), 
   } satisfies Omit<DbMenu, "id">
 }
 route("POST", "/menus", (req, db) => {
@@ -336,6 +337,13 @@ route("POST", "/orders", (req, db) => {
     const m = db.menus.find((x) => x.id === it.menuId && x.aktif)
     if (!m) errors.push({ field: `items.${i}.menuId`, message: "Menu tidak tersedia." })
     if (!(Number.isInteger(it.jumlah) && it.jumlah >= 1 && it.jumlah <= 99)) errors.push({ field: `items.${i}.jumlah`, message: "Jumlah minimal 1 dan berupa bilangan bulat." })
+    if (it.tingkatGula !== undefined) {
+      if (!["kurang", "normal", "ekstra"].includes(it.tingkatGula)) {
+        errors.push({ field: `items.${i}.tingkatGula`, message: "Tingkat gula harus kurang, normal, atau ekstra." })
+      } else if (!m?.bisaAturGula && it.tingkatGula !== "normal") {
+        errors.push({ field: `items.${i}.tingkatGula`, message: `Menu ${m?.nama ?? "ini"} tidak mendukung pengaturan tingkat gula.` })
+      }
+    }
   })
   validasi(errors)
 
@@ -358,7 +366,14 @@ route("POST", "/orders", (req, db) => {
   const detail = items.map((it) => {
     const m = db.menus.find((x) => x.id === it.menuId)!
     const harga = kanal === "shopee_food" ? (m.harga.shopee_food ?? m.harga.toko) : m.harga.toko
-    return { menuId: m.id, namaMenu: m.nama, jumlah: it.jumlah, hargaSatuan: harga, subtotal: harga * it.jumlah }
+    return {
+      menuId: m.id,
+      namaMenu: m.nama,
+      jumlah: it.jumlah,
+      hargaSatuan: harga,
+      subtotal: harga * it.jumlah,
+      ...(it.tingkatGula ? { tingkatGula: it.tingkatGula } : {}),
+    }
   })
   const order = {
     id: nextId(db, "o"), nomor: nomorPesanan(db, tgl(now)), shiftId: s.id, kanal, items: detail,

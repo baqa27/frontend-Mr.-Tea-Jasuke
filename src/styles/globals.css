@@ -10,6 +10,9 @@
   - tinta   : teks utama hijau sangat gelap
   - teh     : warna primer, seduhan teh pekat
   - jagung  : aksen terbatas, hanya untuk nota PoS dan penanda shift aktif
+  - kat-*   : warna kategori menu (strip kartu, tile kategori, titik nota),
+     turunan rasa teh, jagung, dan kemasan paket; bukan warna status.
+     Hijau hanya untuk status --ok supaya tidak tertukar merek es teh lain.
 */
 :root {
   --radius: 0.5rem;
@@ -35,6 +38,14 @@
   /* Kanal Shopee Food: oranye bata agar beda dari teh, dengan teks putih tetap AA */
   --shopee: #b2410f;
   --shopee-muda: #fff0e6;
+
+  /* Kategori menu. Teh mengikuti --teh, jasuke berasal dari --jagung versi tua agar lolos AA sebagai teks, paket ungu tua agar beda dari status info. */
+  --kat-teh: #8a3b12;
+  --kat-teh-muda: #f6e7dc;
+  --kat-jasuke: #8a5a00;
+  --kat-jasuke-muda: #fdf2cc;
+  --kat-paket: #5c3b88;
+  --kat-paket-muda: #f1ebf7;
 
   --background: var(--kertas);
   --foreground: var(--tinta);
@@ -78,6 +89,13 @@
 
   --shopee: #bf5726;
   --shopee-muda: #3d2210;
+
+  --kat-teh: #e0915e;
+  --kat-teh-muda: #3d2212;
+  --kat-jasuke: #e6b23a;
+  --kat-jasuke-muda: #33290f;
+  --kat-paket: #bfa2e8;
+  --kat-paket-muda: #2e213d;
 
   --background: var(--kertas);
   --foreground: var(--tinta);
@@ -140,12 +158,26 @@
   --color-info-muda: var(--info-muda);
   --color-shopee: var(--shopee);
   --color-shopee-muda: var(--shopee-muda);
+  --color-kat-teh: var(--kat-teh);
+  --color-kat-teh-muda: var(--kat-teh-muda);
+  --color-kat-jasuke: var(--kat-jasuke);
+  --color-kat-jasuke-muda: var(--kat-jasuke-muda);
+  --color-kat-paket: var(--kat-paket);
+  --color-kat-paket-muda: var(--kat-paket-muda);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Hierarki radius: 6 = rounded-md (input, chip), 12 = rounded-xl (kartu, panel), 16 sheet, 10 foto menu */
+  --radius-sheet: 16px;
+  --radius-foto: 10px;
+
+  /* Satu bayangan, hanya untuk elemen melayang */
+  --shadow-melayang: 0 4px 16px rgb(27 36 32 / 0.12);
 }
+
 
 @layer base {
   * {

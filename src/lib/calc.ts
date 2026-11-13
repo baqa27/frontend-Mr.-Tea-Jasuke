@@ -1,4 +1,4 @@
-import type { Bahan, Kanal, Menu, StatusStok } from "@/types/domain"
+import type { Bahan, Kanal, Menu, StatusStok, TingkatGula } from "@/types/domain"
 
 /** Harga satu porsi menurut kanal. Harga Shopee Food kosong memakai harga toko. */
 export function hargaKanal(menu: Pick<Menu, "harga">, kanal: Kanal): number {
@@ -69,8 +69,11 @@ export function samaIsiPesanan(
   return kunciIsiPesanan(a) === kunciIsiPesanan(b)
 }
 
-export function kunciIsiPesanan(p: { kanal: Kanal; items: { menuId: string; jumlah: number }[] }): string {
-  const items = [...p.items].map((i) => `${i.menuId}:${i.jumlah}`).sort()
+function gulaKunci(i: { menuId: string; jumlah: number; tingkatGula?: TingkatGula }): string {
+  return `${i.menuId}:${i.jumlah}:${i.tingkatGula ?? "normal"}`
+}
+export function kunciIsiPesanan(p: { kanal: Kanal; items: { menuId: string; jumlah: number; tingkatGula?: TingkatGula }[] }): string {
+  const items = [...p.items].map(gulaKunci).sort()
   return `${p.kanal}|${items.join(",")}`
 }
 

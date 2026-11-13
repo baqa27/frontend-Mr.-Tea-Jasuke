@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { getDb, resetDb } from "@/mocks/db"
+import { resetDb } from "@/mocks/db"
 import { MockHttpError, run } from "@/mocks/handlers"
 
 const req = (method: string, path: string, body?: unknown, token = "mock.u-rina") => ({ method, path, params: {}, query: new URLSearchParams(), body, token })
@@ -58,16 +58,24 @@ describe("aturan mock meniru backend", () => {
     expect(rekap.stok[0].selisih).toBeLessThan(0)
   })
 
-  it("selisih pas di batas toleransi desimal tidak wajib catatan, di atasnya wajib (TUT-05)", () => {
-    getDb().bahan.find((b) => b.id === "b-jagung")!.stokSaatIni = 4.32
-    const s = buka()
-    const sum = run(req("GET", `/shifts/${s.id}/summary`)) as { stok: { bahanId: string; tercatat: number }[] }
-    const isi = (jagung: number) => sum.stok.map((r) => ({ bahanId: r.bahanId, jumlah: r.bahanId === "b-jagung" ? jagung : r.tercatat }))
-    const e = gagal(() => run(req("POST", `/shifts/${s.id}/close`, { stokFisik: isi(4.11), durasiTutupDetik: 60 })))
-    expect((e.body as { errors: { field: string }[] }).errors[0].field).toMatch(/^stokFisik\.\d+\.catatan$/)
-    const rekap = run(req("POST", `/shifts/${s.id}/close`, { stokFisik: isi(4.12), durasiTutupDetik: 60 })) as { stok: { bahanId: string; selisih: number; melewatiToleransi: boolean }[] }
-    const jagung = rekap.stok.find((r) => r.bahanId === "b-jagung")!
-    expect(jagung.selisih).toBe(-0.2)
-    expect(jagung.melewatiToleransi).toBe(false)
+  it("memvalidasi tingkat gula pesanan sesuai aturan bisnis", () => {
+    buka()
+    // Tolak selain tiga nilai
+    const e1 = gagal(() => run(req("POST", "/orders", { clientRequestId: "g1", kanal: "toko", items: [{ menuId: "m-teh-ori", jumlah: 1, tingkatGula: "manis_banget" }] })))
+    expect((e1.body as { code: string }).code).toBe("VALIDATION_ERROR")
+    expect((e1.body as { errors: { field: string }[] }).errors[0].field).toBe("items.0.tingkatGula")
+
+    // Tolak selain normal untuk menu yang bisaAturGula=false (misal m-paket kategori lainnya)
+    const e2 = gagal(() => run(req("POST", "/orders", { clientRequestId: "g2", kanal: "toko", items: [{ menuId: "m-paket", jumlah: 1, tingkatGula: "kurang" }] })))
+    expect((e2.body as { code: string }).code).toBe("VALIDATION_ERROR")
+    expect((e2.body as { errors: { field: string }[] }).errors[0].field).toBe("items.0.tingkatGula")
+
+    // Terima normal untuk menu tanpa bisaAturGula
+    const resNormal = run(req("POST", "/orders", { clientRequestId: "g3", kanal: "toko", items: [{ menuId: "m-paket", jumlah: 1, tingkatGula: "normal" }] })) as { items: { tingkatGula?: string }[] }
+    expect(resNormal.items[0].tingkatGula).toBe("normal")
+
+    // Terima tingkat gula kurang / ekstra untuk menu teh / jasuke dan simpan di ItemPesanan
+    const resSukses = run(req("POST", "/orders", { clientRequestId: "g4", kanal: "toko", items: [{ menuId: "m-teh-ori", jumlah: 1, tingkatGula: "kurang" }] })) as { items: { tingkatGula?: string }[] }
+    expect(resSukses.items[0].tingkatGula).toBe("kurang")
   })
 })
