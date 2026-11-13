@@ -13,7 +13,7 @@ export function ShiftChip({ className }: { className?: string }) {
       data-tour="shift-chip"
       className={cn(
         "inline-flex h-8 items-center gap-2 rounded-full border px-3 text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-        shift ? "border-jagung/60 bg-jagung-muda text-tinta hover:bg-jagung-muda/70" : "bg-card text-muted-foreground hover:text-foreground",
+        shift ? "border-jagung/60 bg-jagung-muda text-tinta-tetap hover:bg-jagung-muda/70" : "bg-card text-muted-foreground hover:text-foreground",
         className,
       )}
     >

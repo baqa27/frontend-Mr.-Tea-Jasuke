@@ -177,16 +177,16 @@ export default function PosPage() {
 
       {/* Bar ringkas di ponsel, di atas bottom navigation (POS-09) */}
       <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-30 px-3 pb-2 lg:hidden">
-        <div className={cn("mx-auto flex max-w-lg items-stretch gap-2 rounded-2xl border bg-tinta p-1.5 text-white shadow-lg shadow-tinta/15 transition-transform", !cart.items.length && "translate-y-[150%]")} aria-hidden={!cart.items.length}>
+        <div className={cn("mx-auto flex max-w-lg items-stretch gap-2 rounded-2xl border bg-card p-1.5 text-tinta shadow-lg shadow-tinta/15 transition-transform", !cart.items.length && "translate-y-[150%]")} aria-hidden={!cart.items.length}>
           <button type="button" onClick={() => setSheet(true)} className="flex min-w-0 flex-1 items-center gap-3 rounded-xl px-3 text-left focus-visible:ring-2 focus-visible:ring-jagung focus-visible:outline-none" tabIndex={cart.items.length ? 0 : -1}>
-            <span className="num grid size-8 shrink-0 place-items-center rounded-full bg-jagung text-sm font-bold text-tinta">{jumlahItem}</span>
+            <span className="num grid size-8 shrink-0 place-items-center rounded-full bg-jagung text-sm font-bold text-tinta-tetap">{jumlahItem}</span>
             <span className="min-w-0">
-              <span className="block text-xs text-white/70">Lihat nota</span>
+              <span className="block text-xs text-muted-foreground">Lihat nota</span>
               <span className="num block truncate text-lg leading-tight font-bold">{rupiah(total)}</span>
             </span>
-            <ChevronUp className="ml-auto size-4 text-white/60" aria-hidden />
+            <ChevronUp className="ml-auto size-4 text-muted-foreground" aria-hidden />
           </button>
-          <Button onClick={simpan} disabled={notaProps.disabled} size="lg" className="h-12 rounded-xl bg-jagung px-5 text-base font-bold text-tinta hover:bg-jagung/90" tabIndex={cart.items.length ? 0 : -1}>
+          <Button onClick={simpan} disabled={notaProps.disabled} size="lg" className="h-12 rounded-xl bg-jagung px-5 text-base font-bold text-tinta-tetap hover:bg-jagung/90" tabIndex={cart.items.length ? 0 : -1}>
             {buat.isPending && <Spinner />}
             Simpan
           </Button>

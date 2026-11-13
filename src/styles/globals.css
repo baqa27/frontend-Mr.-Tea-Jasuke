@@ -16,6 +16,7 @@
 
   --kertas: #f6f7f4;
   --tinta: #1b2420;
+  --tinta-tetap: #1b2420;
   --teh: #8a3b12;
   --teh-tua: #6e2d0c;
   --teh-muda: #f6e7dc;
@@ -53,6 +54,49 @@
   --border: #dadfd6;
   --input: #c9d0c4;
   --ring: var(--teh);
+  --tinta-tetap: #1b2420;
+}
+
+.dark {
+  --kertas: #1a1d1b;
+  --tinta: #f6f7f4;
+  --tinta-tetap: #1b2420;
+  --teh: #c47c4d;
+  --teh-tua: #e0b08c;
+  --teh-muda: #3d2212;
+  --jagung: #f2b705;
+  --jagung-muda: #fff3c4;
+
+  --ok: #5ec98b;
+  --ok-muda: #0f2d1a;
+  --warn: #f2b705;
+  --warn-muda: #3d2d08;
+  --bahaya: #f87060;
+  --bahaya-muda: #3d1512;
+  --info: #7aa0e8;
+  --info-muda: #151f35;
+
+  --shopee: #bf5726;
+  --shopee-muda: #3d2210;
+
+  --background: var(--kertas);
+  --foreground: var(--tinta);
+  --card: #222623;
+  --card-foreground: var(--tinta);
+  --popover: #222623;
+  --popover-foreground: var(--tinta);
+  --primary: var(--teh);
+  --primary-foreground: var(--tinta-tetap);
+  --secondary: #2e332f;
+  --secondary-foreground: var(--tinta);
+  --muted: #2e332f;
+  --muted-foreground: #a8b0a8;
+  --accent: #3a3f3b;
+  --accent-foreground: var(--tinta);
+  --destructive: var(--bahaya);
+  --border: #3a3f3b;
+  --input: #4a504b;
+  --ring: var(--teh);
 }
 
 @theme inline {
@@ -76,8 +120,10 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-tinta-tetap: var(--tinta-tetap);
 
   --color-tinta: var(--tinta);
+  --color-tinta-tetap: var(--tinta-tetap);
   --color-kertas: var(--kertas);
   --color-teh: var(--teh);
   --color-teh-tua: var(--teh-tua);
@@ -145,7 +191,9 @@
 .driver-popover {
   font-family: var(--font-sans);
   border-radius: 12px;
+  background-color: var(--card);
   color: var(--tinta);
+  border-color: var(--border);
 }
 .driver-popover-title {
   font-size: 1rem;
@@ -160,9 +208,13 @@
   border-radius: 6px;
   text-shadow: none;
 }
+.dark .driver-popover-close-btn,
+.dark .driver-popover-progress-text {
+  color: var(--muted-foreground);
+}
 .driver-popover-next-btn {
   background: var(--teh) !important;
-  color: #fff8f0 !important;
+  color: var(--primary-foreground) !important;
   border-color: var(--teh) !important;
 }
 

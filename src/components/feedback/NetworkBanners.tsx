@@ -29,7 +29,7 @@ export function NetworkBanners() {
     )
   if (lambat > 0)
     return (
-      <div role="status" aria-live="polite" className="no-print flex items-center gap-2 bg-jagung-muda px-4 py-2 text-sm font-medium text-tinta">
+      <div role="status" aria-live="polite" className="no-print flex items-center gap-2 bg-jagung-muda px-4 py-2 text-sm font-medium text-tinta-tetap">
         <Loader2 className="size-4 shrink-0 animate-spin" aria-hidden />
         Server sedang dinyalakan, mohon tunggu hingga {Math.round(BATAS_TUNGGU_SERVER_MS / 1000)} detik.
       </div>

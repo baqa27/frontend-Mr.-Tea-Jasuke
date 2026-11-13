@@ -7,6 +7,25 @@
     <meta name="theme-color" content="#F6F7F4" />
     <meta name="description" content="Pencatatan penjualan, stok, dan serah terima shift Mr. Tea & Jasuke" />
     <title>Mr. Tea & Jasuke</title>
+    <script>
+      ;(function () {
+        var tersimpan = null
+        try {
+          tersimpan = localStorage.getItem("ui-store")
+        } catch (e) {}
+        var tema = "sistem"
+        if (tersimpan) {
+          try {
+            var parsed = JSON.parse(tersimpan)
+            if (parsed && parsed.state && parsed.state.tema) tema = parsed.state.tema
+          } catch (e) {}
+        }
+        var gelap = tema === "gelap" || (tema === "sistem" && window.matchMedia("(prefers-color-scheme: dark)").matches)
+        if (gelap) document.documentElement.classList.add("dark")
+        var meta = document.querySelector('meta[name="theme-color"]')
+        if (meta) meta.setAttribute("content", gelap ? "#1A1D1B" : "#F6F7F4")
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>

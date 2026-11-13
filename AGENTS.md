@@ -57,6 +57,14 @@ Jalankan `typecheck`, `test`, dan `build` sebelum menyatakan pekerjaan selesai.
 - Jangan memakai em dash. Ganti dengan koma atau titik.
 - Pesan galat tidak meminta maaf dan tidak samar.
 
+## Aturan kerja
+
+- Tanpa atribusi AI (Co-Authored-By, "Generated with", "Claude", "Anthropic") di commit, pull request, atau kode.
+- Perintah git merusak (force push, rewrite history) hanya setelah user bilang "lanjut force push".
+- Screenshot sebelum/sesudah di `.qa/` (390 px dan 1366 px). Tambahkan `.qa/` ke `.gitignore`.
+- `contoh ui/`, `.claude/`, dan `.skill/` tidak boleh di-commit.
+- Jangan merge PR sendiri.
+
 ## Status pekerjaan
 
 Sudah selesai dengan mock: seluruh kebutuhan PRD bagian 5 kecuali yang menunggu keputusan tim (PRD 16.1). Sisa pekerjaan:
