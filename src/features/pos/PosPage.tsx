@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { Skeleton } from "@/components/ui/skeleton"
 import { Spinner } from "@/components/ui/spinner"
 import { Button } from "@/components/ui/button"
+import { MenuPhoto } from "@/components/shared/MenuPhoto"
 import { toApiError } from "@/lib/api-error"
 import { hargaKanal, samaIsiPesanan, totalKeranjang } from "@/lib/calc"
 import { kategoriLabel, rupiah } from "@/lib/format"
@@ -128,8 +129,8 @@ export default function PosPage() {
                 aria-selected={filter === f}
                 onClick={() => setFilter(f)}
                 className={cn(
-                  "h-9 shrink-0 rounded-full border px-4 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-                  filter === f ? "border-tinta bg-tinta text-white" : "bg-card text-foreground/80 hover:bg-accent",
+                  "h-11 shrink-0 rounded-full border px-4 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none sm:h-9",
+                  filter === f ? tabAktif[f] : "bg-card text-foreground/80 hover:bg-accent",
                 )}
               >
                 {f === "semua" ? "Semua" : kategoriLabel[f]}
@@ -151,7 +152,7 @@ export default function PosPage() {
           <ErrorState error={error} onRetry={() => refetch()} />
         ) : isLoading ? (
           <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-24 rounded-xl" />)}
+            {Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="aspect-[4/5] rounded-xl" />)}
           </div>
         ) : daftar.length === 0 ? (
           <EmptyState title={cari ? `Tidak ada menu "${cari}"` : "Belum ada menu aktif"}>
@@ -204,10 +205,17 @@ export default function PosPage() {
   )
 }
 
-const garisKategori: Record<KategoriMenu, string> = {
-  teh: "before:bg-teh",
-  jasuke: "before:bg-jagung",
-  lainnya: "before:bg-tinta/40",
+const stripKategori: Record<KategoriMenu, string> = {
+  teh: "bg-kat-teh",
+  jasuke: "bg-kat-jasuke",
+  lainnya: "bg-kat-paket",
+}
+
+const tabAktif: Record<Filter, string> = {
+  semua: "border-tinta bg-tinta text-kertas",
+  teh: "border-kat-teh bg-kat-teh-muda text-kat-teh",
+  jasuke: "border-kat-jasuke bg-kat-jasuke-muda text-kat-jasuke",
+  lainnya: "border-kat-paket bg-kat-paket-muda text-kat-paket",
 }
 
 function MenuTile({ menu, qty, onAdd }: { menu: Menu; qty: number; onAdd: () => void }) {
@@ -218,24 +226,38 @@ function MenuTile({ menu, qty, onAdd }: { menu: Menu; qty: number; onAdd: () => 
       type="button"
       onClick={onAdd}
       disabled={habis}
-      aria-label={`${menu.nama}, ${rupiah(hargaKanal(menu, kanal))}${qty ? `, ${qty} di nota` : ""}`}
+      aria-label={`${menu.nama}, ${rupiah(hargaKanal(menu, kanal))}${qty ? `, ${qty} di nota` : ""}${habis ? ", bahan kurang" : ""}`}
       className={cn(
-        "relative flex h-full min-h-24 w-full flex-col justify-between overflow-hidden rounded-xl border bg-card p-3 pl-4 text-left transition-[transform,background-color,border-color] duration-100",
-        "before:absolute before:inset-y-0 before:left-0 before:w-1",
-        garisKategori[menu.kategori],
-        "hover:border-teh/40 active:scale-[0.98] active:bg-teh-muda/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-        qty > 0 && "border-teh/50 bg-teh-muda/30",
-        habis && "cursor-not-allowed opacity-55 active:scale-100",
+        "group relative flex h-full w-full flex-col overflow-hidden rounded-xl border bg-card text-left transition-[transform,border-color] duration-100",
+        "hover:border-teh active:scale-[0.98] motion-reduce:active:scale-100 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+        qty > 0 && "border-teh",
+        habis && "cursor-not-allowed active:scale-100",
       )}
     >
-      <span className="pr-7 text-[0.95rem] leading-snug font-semibold">{menu.nama}</span>
-      <span className="mt-2 flex items-end justify-between gap-2">
-        <span className="num font-semibold text-foreground/80">{rupiah(hargaKanal(menu, kanal))}</span>
-        {habis && <span className="text-xs font-semibold text-bahaya">Bahan kurang</span>}
+      <span className={cn("absolute inset-y-0 left-0 z-10 w-1", stripKategori[menu.kategori])} aria-hidden />
+      <span className="relative block">
+        <MenuPhoto
+          fotoUrl={menu.fotoUrl}
+          kategori={menu.kategori}
+          nama={menu.nama}
+          className={cn("rounded-none", habis && "grayscale")}
+        />
+        {habis && (
+          <span className="absolute bottom-2 left-3 inline-flex items-center gap-1 rounded-md bg-bahaya-muda px-2 py-1 text-xs font-semibold text-bahaya">
+            <TriangleAlert className="size-3.5" aria-hidden />
+            Bahan kurang
+          </span>
+        )}
+        {qty > 0 && (
+          <span className="num absolute top-2 right-2 grid h-7 min-w-7 place-items-center rounded-full bg-teh px-1.5 text-sm font-bold text-white">
+            {qty}
+          </span>
+        )}
       </span>
-      {qty > 0 && (
-        <span className="num absolute top-2.5 right-2.5 grid h-6 min-w-6 place-items-center rounded-full bg-teh px-1.5 text-xs font-bold text-primary-foreground">{qty}</span>
-      )}
+      <span className={cn("flex flex-1 flex-col justify-between gap-1 p-3 pl-4", habis && "opacity-60")}>
+        <span className="line-clamp-2 text-sm leading-snug font-semibold">{menu.nama}</span>
+        <span className="num text-lg font-bold text-teh dark:text-teh-tua">{rupiah(hargaKanal(menu, kanal))}</span>
+      </span>
     </button>
   )
 }

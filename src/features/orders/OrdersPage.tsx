@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { ClipboardList } from "lucide-react"
+import { CheckCircle2, ClipboardList } from "lucide-react"
 import { Link, useSearchParams } from "react-router"
 import { useActiveShift, useOrders } from "@/api/operations"
 import { EmptyState, ErrorState, ListSkeleton } from "@/components/feedback/states"
@@ -12,7 +12,9 @@ import { Label } from "@/components/ui/label"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { useSession } from "@/features/auth/session"
 import { isoTanggal, jam, kanalLabel, namaShiftLabel, rupiah, tanggalPanjang } from "@/lib/format"
-import type { Pesanan } from "@/types/domain"
+import type { Pesanan, TingkatGula } from "@/types/domain"
+
+const gulaLabel: Record<TingkatGula, string> = { kurang: "Kurang", normal: "Normal", ekstra: "Ekstra" }
 
 export default function OrdersPage() {
   const { isPemilik } = useSession()
@@ -86,7 +88,8 @@ export default function OrdersPage() {
                   { key: "nomor", header: "Nomor", mobile: "title", cell: (r) => <span className="num font-semibold">{r.nomor}</span> },
                   { key: "jam", header: "Jam", cell: (r) => <span className="num">{jam(r.dibuatPada)}</span> },
                   { key: "kanal", header: "Kanal", cell: (r) => <KanalBadge kanal={r.kanal} /> },
-                  { key: "item", header: "Item", cell: (r) => <span className="line-clamp-2 text-left text-foreground/80">{r.items.map((i) => `${i.jumlah}x ${i.namaMenu}`).join(", ")}</span>, className: "max-w-sm" },
+                  { key: "item", header: "Item", cell: (r) => <span className="line-clamp-2 text-left text-foreground/80">{r.items.map((i) => `${i.jumlah}x ${i.namaMenu}${i.tingkatGula ? `, gula ${gulaLabel[i.tingkatGula].toLowerCase()}` : ""}`).join(", ")}</span>, className: "max-w-sm" },
+                  { key: "status", header: "Status", cell: () => <span className="inline-flex items-center gap-1.5 font-medium text-ok"><CheckCircle2 className="size-4" aria-hidden />Tersimpan</span> },
                   { key: "total", header: "Total", align: "right", mobile: "aside", cell: (r) => <span className="num font-semibold">{rupiah(r.total)}</span> },
                 ]}
               />
@@ -121,6 +124,7 @@ export default function OrdersPage() {
                       <div>
                         <p className="font-medium">{i.namaMenu}</p>
                         <p className="num text-sm text-muted-foreground">{i.jumlah} x {rupiah(i.hargaSatuan)}</p>
+                        {i.tingkatGula && <span className="mt-1 inline-block rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">Gula: {gulaLabel[i.tingkatGula]}</span>}
                       </div>
                       <p className="num font-semibold">{rupiah(i.subtotal)}</p>
                     </li>
