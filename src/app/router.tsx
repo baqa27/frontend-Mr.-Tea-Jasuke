@@ -3,6 +3,7 @@ import { createBrowserRouter, createHashRouter, type RouteObject } from "react-r
 import { AppShell } from "@/components/layout/AppShell"
 import { GuestOnly, RequireActiveShift, RequireAuth, RequireRole, RoleRedirect } from "@/components/guards/guards"
 import { ForbiddenPage, NotFoundPage } from "@/features/misc/pages"
+import { DevTokens } from "@/components/dev/DevTokens"
 import { env } from "@/lib/env"
 import { flags } from "@/lib/flags"
 
@@ -48,6 +49,7 @@ const routes: RouteObject[] = [
           { path: "/stok", element: <StockPage /> },
           ...(flags.assistant ? [{ path: "/asisten", element: <AssistantPage /> }] : []),
           { path: "/bantuan", element: <HelpPage /> },
+          ...(import.meta.env.DEV ? [{ path: "/dev/tokens", element: <DevTokens /> }] : []),
           {
             path: "/pemilik",
             element: <RequireRole peran="pemilik" />,

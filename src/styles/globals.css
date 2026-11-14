@@ -16,110 +16,116 @@
 */
 :root {
   --radius: 0.5rem;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-sheet: 16px;
+  --radius-foto: 10px;
 
   --kertas: #f6f7f4;
+  --kartu: #ffffff;
   --tinta: #1b2420;
   --tinta-tetap: #1b2420;
+  --abu: #58635d;
+  --garis: #dadfd6;
+  --muted: #eceee8;
   --teh: #8a3b12;
   --teh-tua: #6e2d0c;
   --teh-muda: #f6e7dc;
   --jagung: #f2b705;
   --jagung-muda: #fff3c4;
-
   --ok: #1f7a4d;
   --ok-muda: #ddf1e5;
-  --warn: #9a5800;
-  --warn-muda: #fdf0d5;
+  --ok-teks: #14563a;
   --bahaya: #b42318;
   --bahaya-muda: #fde4e1;
+  --warn: #8a4f00;
+  --warn-muda: #fdf0d5;
   --info: #1e4fa3;
   --info-muda: #e2eafa;
-
-  /* Kanal Shopee Food: oranye bata agar beda dari teh, dengan teks putih tetap AA */
-  --shopee: #b2410f;
+  --shopee: #9a3412;
   --shopee-muda: #fff0e6;
-
-  /* Kategori menu. Teh mengikuti --teh, jasuke berasal dari --jagung versi tua agar lolos AA sebagai teks, paket ungu tua agar beda dari status info. */
   --kat-teh: #8a3b12;
   --kat-teh-muda: #f6e7dc;
-  --kat-jasuke: #8a5a00;
-  --kat-jasuke-muda: #fdf2cc;
-  --kat-paket: #5c3b88;
-  --kat-paket-muda: #f1ebf7;
+  --kat-jasuke: #9a6b00;
+  --kat-jasuke-muda: #fff3c4;
+  --kat-paket: #2d5a87;
+  --kat-paket-muda: #e3ecf6;
 
   --background: var(--kertas);
   --foreground: var(--tinta);
-  --card: #ffffff;
+  --card: var(--kartu);
   --card-foreground: var(--tinta);
-  --popover: #ffffff;
+  --popover: var(--kartu);
   --popover-foreground: var(--tinta);
   --primary: var(--teh);
   --primary-foreground: #fff8f0;
-  --secondary: #eceee8;
+  --secondary: var(--muted);
   --secondary-foreground: var(--tinta);
-  --muted: #eceee8;
-  --muted-foreground: #58635d;
-  --accent: #e6e9e1;
+  --muted-foreground: var(--abu);
+  --accent: var(--muted);
   --accent-foreground: var(--tinta);
   --destructive: var(--bahaya);
-  --border: #dadfd6;
-  --input: #c9d0c4;
-  --ring: var(--teh);
-  --tinta-tetap: #1b2420;
+  --destructive-foreground: #ffffff;
+  --border: var(--garis);
+  --input: var(--garis);
+  --ring: var(--jagung);
+  --shadow-melayang: 0 4px 16px rgb(27 36 32 / 0.12);
 }
 
 .dark {
-  --kertas: #1a1d1b;
-  --tinta: #f6f7f4;
+  --kertas: #141a17;
+  --kartu: #1c2420;
+  --tinta: #eef1ec;
   --tinta-tetap: #1b2420;
-  --teh: #c47c4d;
-  --teh-tua: #e0b08c;
-  --teh-muda: #3d2212;
+  --abu: #a9b3ad;
+  --garis: #2e3833;
+  --muted: #252f2a;
+  --teh: #e9a06f;
+  --teh-tua: #f3c3a1;
+  --teh-muda: #3a2418;
   --jagung: #f2b705;
-  --jagung-muda: #fff3c4;
-
-  --ok: #5ec98b;
-  --ok-muda: #0f2d1a;
-  --warn: #f2b705;
-  --warn-muda: #3d2d08;
-  --bahaya: #f87060;
-  --bahaya-muda: #3d1512;
-  --info: #7aa0e8;
-  --info-muda: #151f35;
-
-  --shopee: #bf5726;
-  --shopee-muda: #3d2210;
-
-  --kat-teh: #e0915e;
-  --kat-teh-muda: #3d2212;
-  --kat-jasuke: #e6b23a;
-  --kat-jasuke-muda: #33290f;
-  --kat-paket: #bfa2e8;
-  --kat-paket-muda: #2e213d;
+  --jagung-muda: #3a3006;
+  --ok: #4cc38a;
+  --ok-muda: #123826;
+  --ok-teks: #bdeed3;
+  --bahaya: #ff8a7a;
+  --bahaya-muda: #3d1712;
+  --warn: #f0b35a;
+  --warn-muda: #3a2a0c;
+  --info: #8fb3ff;
+  --info-muda: #172645;
+  --shopee: #ff9a66;
+  --shopee-muda: #3a1d10;
+  --kat-teh: #e9a06f;
+  --kat-teh-muda: #3a2418;
+  --kat-jasuke: #e9c25a;
+  --kat-jasuke-muda: #3a3006;
+  --kat-paket: #8fb7e0;
+  --kat-paket-muda: #172b40;
 
   --background: var(--kertas);
   --foreground: var(--tinta);
-  --card: #222623;
+  --card: var(--kartu);
   --card-foreground: var(--tinta);
-  --popover: #222623;
+  --popover: var(--kartu);
   --popover-foreground: var(--tinta);
   --primary: var(--teh);
-  --primary-foreground: var(--tinta-tetap);
-  --secondary: #2e332f;
+  --primary-foreground: #1b120c;
+  --secondary: var(--muted);
   --secondary-foreground: var(--tinta);
-  --muted: #2e332f;
-  --muted-foreground: #a8b0a8;
-  --accent: #3a3f3b;
+  --muted-foreground: var(--abu);
+  --accent: var(--muted);
   --accent-foreground: var(--tinta);
   --destructive: var(--bahaya);
-  --border: #3a3f3b;
-  --input: #4a504b;
-  --ring: var(--teh);
+  --destructive-foreground: #1b2420;
+  --border: var(--garis);
+  --input: var(--garis);
+  --ring: var(--jagung);
 }
 
 @theme inline {
   --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -135,14 +141,16 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-tinta-tetap: var(--tinta-tetap);
-
   --color-tinta: var(--tinta);
   --color-tinta-tetap: var(--tinta-tetap);
   --color-kertas: var(--kertas);
+  --color-kartu: var(--kartu);
+  --color-abu: var(--abu);
+  --color-garis: var(--garis);
   --color-teh: var(--teh);
   --color-teh-tua: var(--teh-tua);
   --color-teh-muda: var(--teh-muda);
@@ -150,6 +158,7 @@
   --color-jagung-muda: var(--jagung-muda);
   --color-ok: var(--ok);
   --color-ok-muda: var(--ok-muda);
+  --color-ok-teks: var(--ok-teks);
   --color-warn: var(--warn);
   --color-warn-muda: var(--warn-muda);
   --color-bahaya: var(--bahaya);
@@ -164,18 +173,12 @@
   --color-kat-jasuke-muda: var(--kat-jasuke-muda);
   --color-kat-paket: var(--kat-paket);
   --color-kat-paket-muda: var(--kat-paket-muda);
-
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-
-  /* Hierarki radius: 6 = rounded-md (input, chip), 12 = rounded-xl (kartu, panel), 16 sheet, 10 foto menu */
-  --radius-sheet: 16px;
-  --radius-foto: 10px;
-
-  /* Satu bayangan, hanya untuk elemen melayang */
-  --shadow-melayang: 0 4px 16px rgb(27 36 32 / 0.12);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-sheet: var(--radius-sheet);
+  --radius-foto: var(--radius-foto);
+  --shadow-melayang: var(--shadow-melayang);
 }
 
 
