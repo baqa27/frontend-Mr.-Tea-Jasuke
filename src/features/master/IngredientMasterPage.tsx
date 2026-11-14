@@ -65,7 +65,7 @@ export default function IngredientMasterPage() {
           caption="Daftar bahan baku"
           rows={data}
           rowKey={(b) => b.id}
-          rowClassName={(b) => (!b.aktif ? "opacity-60" : undefined)}
+          rowClassName={(b) => (!b.aktif ? "text-muted-foreground" : undefined)}
           columns={[
             { key: "nama", header: "Bahan", mobile: "title", cell: (b) => <span className="font-semibold">{b.nama}</span> },
             { key: "status", header: "Status", mobile: "aside", cell: (b) => (b.aktif ? <Pill tone="ok">Aktif</Pill> : <Pill>Nonaktif</Pill>) },

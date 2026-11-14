@@ -29,7 +29,7 @@ export function QuantityStepper({ value, onChange, onRemove, label, invalid, max
     <div className={cn("inline-flex items-stretch rounded-lg border bg-card", invalid && "border-bahaya ring-2 ring-bahaya/20")}>
       <button
         type="button"
-        className="grid size-11 place-items-center rounded-l-lg text-foreground hover:bg-accent active:bg-accent disabled:opacity-40"
+        className="grid size-11 place-items-center rounded-l-lg text-foreground hover:bg-accent active:bg-accent disabled:bg-muted disabled:text-muted-foreground"
         onClick={() => (value <= 1 ? onRemove?.() : onChange(value - 1))}
         aria-label={value <= 1 ? `Hapus ${label}` : `Kurangi ${label}`}
       >
@@ -51,7 +51,7 @@ export function QuantityStepper({ value, onChange, onRemove, label, invalid, max
       />
       <button
         type="button"
-        className="grid size-11 place-items-center rounded-r-lg text-foreground hover:bg-accent active:bg-accent disabled:opacity-40"
+        className="grid size-11 place-items-center rounded-r-lg text-foreground hover:bg-accent active:bg-accent disabled:bg-muted disabled:text-muted-foreground"
         onClick={() => onChange(Math.min(max, (Number.isFinite(value) ? value : 0) + 1))}
         disabled={value >= max}
         aria-label={`Tambah ${label}`}

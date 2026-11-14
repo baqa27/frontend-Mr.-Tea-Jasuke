@@ -48,7 +48,7 @@ export function Nota({ menus, ditandai, total, shiftNama, pending, disabled, dis
 
       {items.length === 0 ? (
         <div className="flex flex-col items-center gap-3 px-4 py-8 text-center text-sm text-muted-foreground">
-          <KategoriIlustrasi kategori="teh" className="size-12 opacity-70" />
+          <KategoriIlustrasi kategori="teh" className="size-12" />
           <p>Belum ada pesanan. Pilih menu di sebelah kiri.</p>
         </div>
       ) : (

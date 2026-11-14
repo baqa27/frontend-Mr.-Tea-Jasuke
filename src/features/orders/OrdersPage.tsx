@@ -78,7 +78,7 @@ export default function OrdersPage() {
               {isPemilik ? "Pilih tanggal lain untuk melihat riwayat." : "Pesanan yang disimpan di PoS akan langsung muncul di sini."}
             </EmptyState>
           ) : (
-            <div className={isFetching ? "opacity-70 transition-opacity" : undefined}>
+            <div aria-busy={isFetching}>
               <ResponsiveTable
                 caption="Daftar pesanan"
                 rows={data.items}

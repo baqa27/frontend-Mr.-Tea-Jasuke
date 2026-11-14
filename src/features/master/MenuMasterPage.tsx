@@ -71,7 +71,7 @@ export default function MenuMasterPage() {
           caption="Daftar menu"
           rows={daftar}
           rowKey={(m) => m.id}
-          rowClassName={(m) => (!m.aktif ? "opacity-60" : undefined)}
+          rowClassName={(m) => (!m.aktif ? "text-muted-foreground" : undefined)}
           columns={[
             { key: "nama", header: "Menu", mobile: "title", cell: (m) => <div><p className="font-semibold">{m.nama}</p><p className="text-xs font-normal text-muted-foreground">{kategoriLabel[m.kategori]}</p></div> },
             { key: "status", header: "Status", mobile: "aside", cell: (m) => (m.aktif ? <Pill tone="ok">Aktif</Pill> : <Pill>Nonaktif</Pill>) },

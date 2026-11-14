@@ -44,7 +44,7 @@ export const isoTanggal = (d: Date) => format(d, "yyyy-MM-dd")
 
 export const namaShiftLabel: Record<string, string> = { pagi: "Pagi", siang: "Siang", malam: "Malam" }
 export const kanalLabel: Record<string, string> = { toko: "Toko", shopee_food: "Shopee Food" }
-export const kategoriLabel: Record<string, string> = { teh: "Teh", jasuke: "Jasuke", lainnya: "Lainnya" }
+export const kategoriLabel: Record<string, string> = { teh: "Teh", jasuke: "Jasuke", lainnya: "Paket" }
 
 const POLA_RIBUAN = /^\d{1,3}(\.\d{3})+$/
 

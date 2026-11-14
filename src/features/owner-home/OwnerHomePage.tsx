@@ -117,13 +117,13 @@ function TujuhHari() {
           {rows.map((r) => (
             <li key={r.tanggal} className="flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-1.5">
               <Link to={`/pemilik/rekap/${r.tanggal}`} className="group flex w-full flex-1 flex-col justify-end" aria-label={`${tanggalRingkas(r.tanggal)}: ${rupiah(r.omzet)}`}>
-                <span className="num mb-1 hidden text-center text-[11px] font-semibold text-muted-foreground group-hover:block sm:group-hover:block">{Math.round(r.omzet / 1000)}rb</span>
+                <span className="num mb-1 hidden text-center text-xs font-semibold text-muted-foreground">{Math.round(r.omzet / 1000)}rb</span>
                 <span
-                  className={cn("w-full rounded-t-md transition-colors", r.status === "lengkap" ? "bg-teh/80 group-hover:bg-teh" : "bg-jagung group-hover:bg-jagung/80")}
+                  className={cn("w-full rounded-t-md transition-colors", r.status === "lengkap" ? "bg-teh" : "bg-jagung")}
                   style={{ height: `${Math.max(4, (r.omzet / max) * 100)}%` }}
                 />
               </Link>
-              <span className="text-[11px] font-medium text-muted-foreground">{tanggalRingkas(r.tanggal).split(",")[0]}</span>
+              <span className="text-xs font-medium text-muted-foreground">{tanggalRingkas(r.tanggal).split(",")[0]}</span>
             </li>
           ))}
         </ol>

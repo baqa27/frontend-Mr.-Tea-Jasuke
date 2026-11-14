@@ -130,7 +130,7 @@ export default function PosPage() {
                 onClick={() => setFilter(f)}
                 className={cn(
                   "h-11 shrink-0 rounded-full border px-4 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none sm:h-9",
-                  filter === f ? tabAktif[f] : "bg-card text-foreground/80 hover:bg-accent",
+                  filter === f ? tabAktif[f] : "bg-card text-muted-foreground hover:bg-accent",
                 )}
               >
                 {f === "semua" ? "Semua" : kategoriLabel[f]}

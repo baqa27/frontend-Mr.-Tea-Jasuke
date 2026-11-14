@@ -13,13 +13,12 @@ import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { Skeleton } from "@/components/ui/skeleton"
 import { saranBeli } from "@/lib/calc"
 import { angka, jam, tanggalPanjang, tanggalRingkas } from "@/lib/format"
-import { cn } from "@/lib/utils"
 import type { Perkiraan } from "@/types/domain"
 
 const labelFitur: Record<string, string> = { lag: "Lag (pemakaian hari sebelumnya)", hari_dalam_minggu: "Hari dalam minggu", kanal: "Kanal penjualan" }
 
 export default function ForecastPage() {
-  const { data, isLoading, error, refetch, isFetching } = useForecast()
+  const { data, isLoading, error, refetch } = useForecast()
   return (
     <>
       <PageHeader
@@ -34,7 +33,7 @@ export default function ForecastPage() {
         <div className="grid gap-4">
           {data.sumberData !== "asli" && <SimulasiBanner>Perkiraan ini dilatih memakai data simulasi. Gunakan sebagai gambaran, bukan patokan pasti.</SimulasiBanner>}
           <div className="grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] xl:items-start">
-            <TabelPerkiraan data={data} redup={isFetching} />
+            <TabelPerkiraan data={data} />
             <ErrorBoundary><GrafikPemakaian data={data} /></ErrorBoundary>
           </div>
           <ErrorBoundary><EvaluasiModel /></ErrorBoundary>
@@ -44,7 +43,7 @@ export default function ForecastPage() {
   )
 }
 
-function TabelPerkiraan({ data, redup }: { data: Perkiraan; redup: boolean }) {
+function TabelPerkiraan({ data }: { data: Perkiraan }) {
   const rows = useMemo(
     () =>
       data.items
@@ -57,7 +56,7 @@ function TabelPerkiraan({ data, redup }: { data: Perkiraan; redup: boolean }) {
     <Panel
       title={perluBeli ? `${perluBeli} bahan perlu dibeli` : "Stok cukup untuk besok"}
       action={<span className="text-xs text-muted-foreground">Model {data.versiModel}, {jam(data.dibuatPada)}</span>}
-      bodyClassName={cn("p-0", redup && "opacity-70")}
+      bodyClassName="p-0"
     >
       <ResponsiveTable
         flush

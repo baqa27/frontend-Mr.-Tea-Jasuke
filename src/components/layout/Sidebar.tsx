@@ -27,7 +27,7 @@ export function Sidebar({ className }: { className?: string }) {
                     data-tour={it.tour}
                     className={({ isActive }) =>
                       cn(
-                        "relative flex h-9 items-center gap-2.5 rounded-md px-2.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+                        "relative flex h-11 items-center gap-2.5 rounded-md px-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
                         isActive && "bg-teh-muda text-teh-tua before:absolute before:top-1.5 before:bottom-1.5 before:-left-3 before:w-[3px] before:rounded-r before:bg-teh hover:bg-teh-muda",
                       )
                     }
@@ -42,7 +42,7 @@ export function Sidebar({ className }: { className?: string }) {
         ))}
       </nav>
       <div className="flex items-center gap-3 border-t px-4 py-3">
-        <span className="grid size-9 shrink-0 place-items-center rounded-full bg-teh text-sm font-bold text-primary-foreground">{inisial(pengguna.nama)}</span>
+        <span className="grid size-11 shrink-0 place-items-center rounded-full bg-teh text-sm font-bold text-primary-foreground">{inisial(pengguna.nama)}</span>
         <div className="min-w-0 flex-1 leading-tight">
           <p className="truncate text-sm font-semibold">{pengguna.nama}</p>
           <p className="text-xs text-muted-foreground capitalize">{pengguna.peran}</p>
@@ -50,7 +50,7 @@ export function Sidebar({ className }: { className?: string }) {
         <button
           type="button"
           onClick={minta}
-          className="grid size-9 place-items-center rounded-md text-muted-foreground hover:bg-accent hover:text-bahaya focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+          className="grid size-11 place-items-center rounded-md text-muted-foreground hover:bg-accent hover:text-bahaya focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           aria-label="Keluar"
         >
           <LogOut className="size-4" />

@@ -57,7 +57,7 @@ export function UserMenu({ className }: { className?: string }) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger
-          className={cn("grid size-9 place-items-center rounded-full bg-teh text-sm font-bold text-primary-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none", className)}
+          className={cn("grid size-11 place-items-center rounded-full bg-teh text-sm font-bold text-primary-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none", className)}
           aria-label={`Menu akun ${pengguna.nama}`}
         >
           {inisial(pengguna.nama)}
