@@ -88,7 +88,7 @@ export default function OrdersPage() {
                   { key: "nomor", header: "Nomor", mobile: "title", cell: (r) => <span className="num font-semibold">{r.nomor}</span> },
                   { key: "jam", header: "Jam", cell: (r) => <span className="num">{jam(r.dibuatPada)}</span> },
                   { key: "kanal", header: "Kanal", cell: (r) => <KanalBadge kanal={r.kanal} /> },
-                  { key: "item", header: "Item", cell: (r) => <span className="line-clamp-2 text-left text-foreground/80">{r.items.map((i) => `${i.jumlah}x ${i.namaMenu}${i.tingkatGula ? `, gula ${gulaLabel[i.tingkatGula].toLowerCase()}` : ""}`).join(", ")}</span>, className: "max-w-sm" },
+                  { key: "item", header: "Item", cell: (r) => <span className="line-clamp-2 text-left text-muted-foreground">{r.items.map((i) => `${i.jumlah}x ${i.namaMenu}${i.tingkatGula ? `, gula ${gulaLabel[i.tingkatGula].toLowerCase()}` : ""}`).join(", ")}</span>, className: "max-w-sm" },
                   { key: "status", header: "Status", cell: () => <span className="inline-flex items-center gap-1.5 font-medium text-ok"><CheckCircle2 className="size-4" aria-hidden />Tersimpan</span> },
                   { key: "total", header: "Total", align: "right", mobile: "aside", cell: (r) => <span className="num font-semibold">{rupiah(r.total)}</span> },
                 ]}

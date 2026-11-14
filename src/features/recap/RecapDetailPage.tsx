@@ -116,7 +116,7 @@ export default function RecapDetailPage() {
               return (
                 <li key={s.shiftId}>
                   <p className="font-semibold">Shift {namaShiftLabel[s.nama]}</p>
-                  {s.catatanShift && <p className="text-foreground/80">{s.catatanShift}</p>}
+                  {s.catatanShift && <p className="text-muted-foreground">{s.catatanShift}</p>}
                   {cat.map((x) => <p key={x.bahanId} className="text-muted-foreground">{x.namaBahan}: {x.catatan}</p>)}
                 </li>
               )

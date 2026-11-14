@@ -254,7 +254,7 @@ function MenuTile({ menu, qty, onAdd }: { menu: Menu; qty: number; onAdd: () => 
           </span>
         )}
       </span>
-      <span className={cn("flex flex-1 flex-col justify-between gap-1 p-3 pl-4", habis && "opacity-60")}>
+      <span className="flex flex-1 flex-col justify-between gap-1 p-3 pl-4">
         <span className="line-clamp-2 text-sm leading-snug font-semibold">{menu.nama}</span>
         <span className="num text-lg font-bold text-teh dark:text-teh-tua">{rupiah(hargaKanal(menu, kanal))}</span>
       </span>

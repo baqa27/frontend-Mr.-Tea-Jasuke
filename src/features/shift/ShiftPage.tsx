@@ -190,6 +190,9 @@ function BukaShift() {
               {buka.isPending && <Spinner />}
               Buka Shift
             </Button>
+            {(!cek || !nama) && (
+              <p className="mt-2 text-center text-xs text-muted-foreground">Centang konfirmasi stok awal untuk membuka shift.</p>
+            )}
           </div>
         </div>
       </div>

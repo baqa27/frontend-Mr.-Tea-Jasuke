@@ -194,7 +194,7 @@ function Gelembung({ m }: { m: PesanChat }) {
         {!!m.sumber?.length && (
           <ul className="mt-3 flex flex-wrap gap-1.5 border-t pt-3" aria-label="Sumber">
             {m.sumber.map((s, i) => (
-              <li key={i} className="inline-flex items-center gap-1.5 rounded-md bg-muted px-2 py-1 text-xs font-medium text-foreground/80">
+              <li key={i} className="inline-flex items-center gap-1.5 rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
                 <BookOpen className="size-3.5 text-teh" aria-hidden />
                 {s.judul}{s.bagian ? `, ${s.bagian}` : ""}
               </li>

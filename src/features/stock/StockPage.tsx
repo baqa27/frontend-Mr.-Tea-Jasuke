@@ -89,7 +89,7 @@ export default function StockPage() {
               onClick={() => setFilter(f)}
               className={cn(
                 "h-9 rounded-full border px-4 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-                filter === f ? "border-tinta bg-tinta text-white" : "bg-card text-foreground/80 hover:bg-accent",
+                filter === f ? "border-tinta bg-tinta text-white" : "bg-card text-muted-foreground hover:bg-accent",
               )}
             >
               {label}

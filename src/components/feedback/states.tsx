@@ -25,7 +25,7 @@ export function ErrorState({ error, onRetry, title = "Data belum bisa dimuat", c
     <div role="alert" className={cn("flex flex-col items-start gap-3 rounded-xl border border-bahaya/25 bg-bahaya-muda/50 px-5 py-6", className)}>
       <div>
         <p className="font-semibold text-bahaya">{title}</p>
-        <p className="mt-1 text-sm text-foreground/80">{e.message}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{e.message}</p>
         {e.requestId && <p className="mt-1 text-xs text-muted-foreground">Kode kejadian: {e.requestId}</p>}
       </div>
       {onRetry && (
