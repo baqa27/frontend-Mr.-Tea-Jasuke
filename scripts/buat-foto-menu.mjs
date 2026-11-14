@@ -1,5 +1,5 @@
 /**
- * Membuat 4 foto menu ilustratif sintetis (SVG dirasterisasi ke WebP oleh sharp).
+ * Membuat 12 foto menu ilustratif sintetis (SVG dirasterisasi ke WebP oleh sharp).
  * Tidak mengunduh apa pun dari internet. Jalankan: npm run foto:menu
  */
 import { mkdir } from "node:fs/promises"
@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url"
 import sharp from "sharp"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const OUT_DIR = resolve(__dirname, "../public/img/menu")
+const OUT_DIR = resolve(__dirname, "../public/menu")
 
 const W = 640
 const H = 480
@@ -64,20 +64,28 @@ const minuman = svg(`
 `)
 
 const files = [
-  { nama: "teh.webp", svg: teh },
-  { nama: "jasuke.webp", svg: jasuke },
-  { nama: "es-teh.webp", svg: esTeh },
-  { nama: "minuman.webp", svg: minuman },
+  { nama: "m-teh-ori.webp", svg: teh },
+  { nama: "m-teh-jumbo.webp", svg: teh.replace("M220 150 L420", "M185 130 L455").replace("L390 430 L250", "L415 440 L225") },
+  { nama: "m-teh-lemon.webp", svg: esTeh },
+  { nama: "m-teh-leci.webp", svg: esTeh.replace("#f5d63d", "#e98cab") },
+  { nama: "m-teh-susu.webp", svg: minuman },
+  { nama: "m-thai.webp", svg: minuman.replace("#efe3cf", "#d97832") },
+  { nama: "m-teh-lemon-jumbo.webp", svg: esTeh.replace("M250 110 L390", "M210 90 L430").replace("L370 430 L270", "L400 440 L240") },
+  { nama: "m-jasuke-ori.webp", svg: jasuke },
+  { nama: "m-jasuke-keju.webp", svg: jasuke.replaceAll("r=\"18\"", "r=\"26\"") },
+  { nama: "m-jasuke-coklat.webp", svg: jasuke.replace("#e8e2d0", "#6b3b24") },
+  { nama: "m-jasuke-balado.webp", svg: jasuke.replace("#e8e2d0", "#d94b2b") },
+  { nama: "m-paket.webp", svg: svg(`${teh.match(/<path d=\"M220[\s\S]*?<\/path>/)?.[0] ?? ""}${jasuke.match(/<path d=\"M240[\s\S]*?<\/path>/)?.[0] ?? ""}`) },
 ]
 
 await mkdir(OUT_DIR, { recursive: true })
 for (const f of files) {
-  const buf = await sharp(Buffer.from(f.svg)).webp({ quality: 70 }).toBuffer()
+  const buf = await sharp(Buffer.from(f.svg)).webp({ quality: 80 }).toBuffer()
   const out = resolve(OUT_DIR, f.nama)
   await sharp(buf).toFile(out)
   const kb = Buffer.byteLength(buf) / 1024
-  if (kb >= 30) {
-    console.error(`GAGAL: ${f.nama} ${kb.toFixed(1)} KB >= 30 KB`)
+  if (kb >= 60) {
+    console.error(`GAGAL: ${f.nama} ${kb.toFixed(1)} KB >= 60 KB`)
     process.exit(1)
   }
   console.log(`${f.nama} ${kb.toFixed(1)} KB`)

@@ -6,22 +6,40 @@ import { MenuPhoto } from "../MenuPhoto"
 import { SugarControl } from "../SugarControl"
 
 describe("MenuPhoto", () => {
-  it("menampilkan ilustrasi jika fotoUrl tidak disediakan", () => {
+  it("memakai foto lokal per menuId dan beri label Ilustrasi AI bila tanpa fotoUrl", () => {
+    render(<MenuPhoto id="m-teh-ori" kategori="teh" nama="Es Teh Manis" />)
+    const img = containerImg()
+    expect(img).toHaveAttribute("src", "/menu/m-teh-ori.webp")
+    expect(screen.getByText("Ilustrasi AI")).toBeInTheDocument()
+  })
+
+  it("ilustrasi kategori, tanpa img, bila menuId dan fotoUrl kosong", () => {
     const { container } = render(<MenuPhoto kategori="teh" nama="Es Teh Manis" />)
-    const img = screen.queryByRole("img")
-    expect(img).not.toBeInTheDocument()
+    expect(container.querySelector("img")).not.toBeInTheDocument()
     expect(container.querySelector("svg")).toBeInTheDocument()
+    expect(screen.getByText("Ilustrasi AI")).toBeInTheDocument()
   })
 
   it("menampilkan fallback ilustrasi jika gambar gagal memuat", () => {
     const { container } = render(<MenuPhoto fotoUrl="/foto-rusak.jpg" kategori="jasuke" nama="Jasuke Susu" />)
-    const img = screen.getByRole("img")
+    const img = containerImg()
     expect(img).toBeInTheDocument()
     fireEvent.error(img)
-    expect(screen.queryByRole("img")).not.toBeInTheDocument()
+    expect(container.querySelector("img")).not.toBeInTheDocument()
     expect(container.querySelector("svg")).toBeInTheDocument()
+    expect(screen.getByText("Ilustrasi AI")).toBeInTheDocument()
+  })
+
+  it("tanpa label Ilustrasi AI untuk foto dari backend", () => {
+    render(<MenuPhoto fotoUrl="https://cdn.example.com/foto.jpg" kategori="teh" nama="Teh" />)
+    expect(containerImg()).toHaveAttribute("src", "https://cdn.example.com/foto.jpg")
+    expect(screen.queryByText("Ilustrasi AI")).not.toBeInTheDocument()
   })
 })
+
+function containerImg() {
+  return document.querySelector("img") as HTMLImageElement
+}
 
 function ControlledSugarControl({ initialValue }: { initialValue?: TingkatGula }) {
   const [val, setVal] = useState<TingkatGula | undefined>(initialValue)

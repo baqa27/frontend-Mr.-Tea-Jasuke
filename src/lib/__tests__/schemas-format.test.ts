@@ -63,7 +63,7 @@ describe("validasi master menu", () => {
     expect(menuSchema.safeParse({ ...dasar, hargaToko: 2500.5 }).success).toBe(false)
   })
   it("memvalidasi fotoUrl dan bisaAturGula", () => {
-    expect(menuSchema.safeParse({ ...dasar, bisaAturGula: true, fotoUrl: "/img/menu/teh.webp" }).success).toBe(true)
+    expect(menuSchema.safeParse({ ...dasar, bisaAturGula: true, fotoUrl: "/menu/m-teh-ori.webp" }).success).toBe(true)
     expect(menuSchema.safeParse({ ...dasar, bisaAturGula: false, fotoUrl: "https://example.com/foto.jpg" }).success).toBe(true)
     expect(menuSchema.safeParse({ ...dasar, bisaAturGula: true, fotoUrl: "data:image/webp;base64,xxxx" }).success).toBe(true)
     expect(menuSchema.safeParse({ ...dasar, fotoUrl: "invalid-url" }).success).toBe(false)

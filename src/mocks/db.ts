@@ -120,16 +120,18 @@ const MENUS_DASAR: Omit<DbMenu, "bisaAturGula" | "fotoUrl">[] = [
 
 /** Foto seed dibuat oleh scripts/buat-foto-menu.mjs. Menu tanpa foto memakai ilustrasi kategori. */
 const FOTO: Record<string, string> = {
-  "m-teh-ori": "/img/menu/teh.webp",
-  "m-teh-susu": "/img/menu/teh.webp",
-  "m-teh-lemon": "/img/menu/es-teh.webp",
-  "m-teh-leci": "/img/menu/es-teh.webp",
-  "m-teh-jumbo": "/img/menu/es-teh.webp",
-  "m-thai": "/img/menu/minuman.webp",
-  "m-jasuke-ori": "/img/menu/jasuke.webp",
-  "m-jasuke-keju": "/img/menu/jasuke.webp",
-  "m-jasuke-coklat": "/img/menu/jasuke.webp",
-  "m-jasuke-balado": "/img/menu/jasuke.webp",
+  "m-teh-ori": "/menu/m-teh-ori.webp",
+  "m-teh-jumbo": "/menu/m-teh-jumbo.webp",
+  "m-teh-lemon": "/menu/m-teh-lemon.webp",
+  "m-teh-leci": "/menu/m-teh-leci.webp",
+  "m-teh-susu": "/menu/m-teh-susu.webp",
+  "m-thai": "/menu/m-thai.webp",
+  "m-teh-lemon-jumbo": "/menu/m-teh-lemon-jumbo.webp",
+  "m-jasuke-ori": "/menu/m-jasuke-ori.webp",
+  "m-jasuke-keju": "/menu/m-jasuke-keju.webp",
+  "m-jasuke-coklat": "/menu/m-jasuke-coklat.webp",
+  "m-jasuke-balado": "/menu/m-jasuke-balado.webp",
+  "m-paket": "/menu/m-paket.webp",
 }
 
 const MENUS: DbMenu[] = MENUS_DASAR.map((m) => ({
