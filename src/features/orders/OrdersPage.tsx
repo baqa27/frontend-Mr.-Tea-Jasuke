@@ -1,9 +1,11 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { CheckCircle2, ClipboardList } from "lucide-react"
 import { Link, useSearchParams } from "react-router"
+import { useMenus } from "@/api/catalog"
 import { useActiveShift, useOrders } from "@/api/operations"
 import { EmptyState, ErrorState, ListSkeleton } from "@/components/feedback/states"
 import { KanalBadge } from "@/components/shared/badges"
+import { MenuPhoto } from "@/components/shared/MenuPhoto"
 import { PageHeader } from "@/components/shared/PageHeader"
 import { ResponsiveTable } from "@/components/shared/ResponsiveTable"
 import { Button } from "@/components/ui/button"
@@ -22,7 +24,9 @@ export default function OrdersPage() {
   const [params, setParams] = useSearchParams()
   const tanggal = params.get("tanggal") ?? isoTanggal(new Date())
   const page = Number(params.get("page") ?? 1)
+  const { data: menus } = useMenus()
   const [detail, setDetail] = useState<Pesanan | null>(null)
+  const menuById = useMemo(() => new Map((menus ?? []).map((m) => [m.id, m])), [menus])
 
   const filter = isPemilik ? { tanggal, page } : { shiftId: shift?.id, page }
   const { data, isLoading, error, refetch, isFetching } = useOrders(filter, isPemilik || !!shift)
@@ -88,7 +92,7 @@ export default function OrdersPage() {
                   { key: "nomor", header: "Nomor", mobile: "title", cell: (r) => <span className="num font-semibold">{r.nomor}</span> },
                   { key: "jam", header: "Jam", cell: (r) => <span className="num">{jam(r.dibuatPada)}</span> },
                   { key: "kanal", header: "Kanal", cell: (r) => <KanalBadge kanal={r.kanal} /> },
-                  { key: "item", header: "Item", cell: (r) => <span className="line-clamp-2 text-left text-muted-foreground">{r.items.map((i) => `${i.jumlah}x ${i.namaMenu}${i.tingkatGula ? `, gula ${gulaLabel[i.tingkatGula].toLowerCase()}` : ""}`).join(", ")}</span>, className: "max-w-sm" },
+                  { key: "menu", header: "Menu", cell: (r) => <div className="flex items-center gap-2">{r.items.slice(0, 3).map((i) => { const menu = menuById.get(i.menuId); return <MenuPhoto key={i.menuId} fotoUrl={menu?.fotoUrl} kategori={menu?.kategori ?? "teh"} nama={i.namaMenu} className="size-8 shrink-0 rounded-md" /> })}{r.items.length > 3 && <span className="text-xs text-muted-foreground">+{r.items.length - 3}</span>}</div> },
                   { key: "status", header: "Status", cell: () => <span className="inline-flex items-center gap-1.5 font-medium text-ok"><CheckCircle2 className="size-4" aria-hidden />Tersimpan</span> },
                   { key: "total", header: "Total", align: "right", mobile: "aside", cell: (r) => <span className="num font-semibold">{rupiah(r.total)}</span> },
                 ]}
@@ -119,16 +123,20 @@ export default function OrdersPage() {
               </SheetHeader>
               <div className="px-4">
                 <ul className="divide-y divide-dashed divide-input border-y border-dashed border-input">
-                  {detail.items.map((i) => (
-                    <li key={i.menuId} className="flex justify-between gap-3 py-3">
-                      <div>
-                        <p className="font-medium">{i.namaMenu}</p>
-                        <p className="num text-sm text-muted-foreground">{i.jumlah} x {rupiah(i.hargaSatuan)}</p>
-                        {i.tingkatGula && <span className="mt-1 inline-block rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">Gula: {gulaLabel[i.tingkatGula]}</span>}
-                      </div>
-                      <p className="num font-semibold">{rupiah(i.subtotal)}</p>
-                    </li>
-                  ))}
+                  {detail.items.map((i) => {
+                    const menu = menuById.get(i.menuId)
+                    return (
+                      <li key={i.menuId} className="flex items-start gap-3 py-3">
+                        <MenuPhoto fotoUrl={menu?.fotoUrl} kategori={menu?.kategori ?? "teh"} nama={i.namaMenu} className="size-11 shrink-0 rounded-md" />
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium">{i.namaMenu}</p>
+                          <p className="num text-sm text-muted-foreground">{i.jumlah} x {rupiah(i.hargaSatuan)}</p>
+                          {i.tingkatGula && <span className="mt-1 inline-block rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground">Gula: {gulaLabel[i.tingkatGula]}</span>}
+                        </div>
+                        <p className="num font-semibold shrink-0">{rupiah(i.subtotal)}</p>
+                      </li>
+                    )
+                  })}
                 </ul>
                 <div className="flex items-baseline justify-between py-4">
                   <span className="font-semibold">Total</span>
