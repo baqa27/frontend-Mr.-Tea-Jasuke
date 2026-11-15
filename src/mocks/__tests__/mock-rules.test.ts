@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest"
-import { resetDb } from "@/mocks/db"
+import { getDb, resetDb } from "@/mocks/db"
 import { MockHttpError, run } from "@/mocks/handlers"
 
 const req = (method: string, path: string, body?: unknown, token = "mock.u-rina") => ({ method, path, params: {}, query: new URLSearchParams(), body, token })
@@ -70,7 +70,8 @@ describe("aturan mock meniru backend", () => {
     expect((e2.body as { code: string }).code).toBe("VALIDATION_ERROR")
     expect((e2.body as { errors: { field: string }[] }).errors[0].field).toBe("items.0.tingkatGula")
 
-    // Terima normal untuk menu tanpa bisaAturGula
+    // Terima normal untuk menu tanpa bisaAturGula. Stok diisi agar tidak bergantung fixture harian (keju sengaja ditahan).
+    for (const b of getDb().bahan) b.stokSaatIni = 1e6
     const resNormal = run(req("POST", "/orders", { clientRequestId: "g3", kanal: "toko", items: [{ menuId: "m-paket", jumlah: 1, tingkatGula: "normal" }] })) as { items: { tingkatGula?: string }[] }
     expect(resNormal.items[0].tingkatGula).toBe("normal")
 

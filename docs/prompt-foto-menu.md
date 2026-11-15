@@ -10,6 +10,7 @@ Model: gpt-image-2.5-flare lewat Figma AI, rasio 4:3. Ekspor dari Figma dengan n
 - Web dan media sosial publik tidak memuat menu toko ini. Nama menu diambil dari data master di mock frontend, yang berasal dari use case bersama PIC.
 - Gaya gambar mengikuti kemasan es teh dan jasuke kaki lima yang umum: gelas plastik bening bersegel, cup kertas putih, tanpa logo. Ganti dengan foto asli begitu PIC mengirimnya.
 - Gambar ini ilustrasi, bukan foto produk. Aplikasi wajib menampilkan label "Ilustrasi AI" sampai foto asli tersedia.
+- Foto menu hanya tampilan di frontend. Project Plan dan PRD tidak memuat foto menu, jadi tidak ada field foto di kontrak API dan tidak ada unggah foto di form menu. "Paket Teh + Jasuke" tetap berkategori Lainnya sesuai PRD POS-01.
 
 ## Prompt per menu
 

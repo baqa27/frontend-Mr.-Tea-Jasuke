@@ -9,6 +9,7 @@ import { AsumsiBadge, Pill } from "@/components/shared/badges"
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog"
 import { Field } from "@/components/shared/Field"
 import { HelpTooltip, ISTILAH } from "@/components/shared/HelpTooltip"
+import { MenuPhoto } from "@/components/shared/MenuPhoto"
 import { PageHeader } from "@/components/shared/PageHeader"
 import { ResponsiveTable } from "@/components/shared/ResponsiveTable"
 import { Button } from "@/components/ui/button"
@@ -73,7 +74,22 @@ export default function MenuMasterPage() {
           rowKey={(m) => m.id}
           rowClassName={(m) => (!m.aktif ? "text-muted-foreground" : undefined)}
           columns={[
-            { key: "nama", header: "Menu", mobile: "title", cell: (m) => <div><p className="font-semibold">{m.nama}</p><p className="text-xs font-normal text-muted-foreground">{kategoriLabel[m.kategori]}</p></div> },
+            {
+              key: "nama",
+              header: "Menu",
+              mobile: "title",
+              cell: (m) => (
+                <div className="flex items-center gap-3">
+                  <div className="h-[42px] w-[56px] shrink-0">
+                    <MenuPhoto id={m.id} fotoUrl={m.fotoUrl} kategori={m.kategori} nama={m.nama} className="size-full rounded-md" />
+                  </div>
+                  <div>
+                    <p className="font-semibold">{m.nama}</p>
+                    <p className="text-xs font-normal text-muted-foreground">{kategoriLabel[m.kategori]}</p>
+                  </div>
+                </div>
+              ),
+            },
             { key: "status", header: "Status", mobile: "aside", cell: (m) => (m.aktif ? <Pill tone="ok">Aktif</Pill> : <Pill>Nonaktif</Pill>) },
             { key: "toko", header: "Harga toko", align: "right", cell: (m) => <span className="num font-semibold">{rupiah(m.harga.toko)}</span> },
             { key: "shopee", header: "Shopee Food", align: "right", cell: (m) => <span className="num">{m.harga.shopee_food ? rupiah(m.harga.shopee_food) : <span className="text-muted-foreground">Sama dengan toko</span>}</span> },
@@ -82,11 +98,11 @@ export default function MenuMasterPage() {
               key: "aksi", label: "", header: <span className="sr-only">Aksi</span>, align: "right",
               cell: (m) => (
                 <div className="flex justify-end gap-1">
-                  <Button variant="ghost" size="sm" onClick={() => setEdit(m)}><Pencil />Ubah</Button>
+                  <Button variant="ghost" size="sm" className="min-h-11 min-w-11" onClick={() => setEdit(m)}><Pencil />Ubah</Button>
                   {m.aktif ? (
-                    <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-bahaya" onClick={() => setNonaktif(m)}>Nonaktifkan</Button>
+                    <Button variant="ghost" size="sm" className="min-h-11 min-w-11 text-muted-foreground hover:text-bahaya" onClick={() => setNonaktif(m)}>Nonaktifkan</Button>
                   ) : (
-                    <Button variant="ghost" size="sm" onClick={() => ubahStatus(m, true)}>Aktifkan</Button>
+                    <Button variant="ghost" size="sm" className="min-h-11 min-w-11" onClick={() => ubahStatus(m, true)}>Aktifkan</Button>
                   )}
                 </div>
               ),
@@ -185,6 +201,21 @@ function MenuForm({ menu, onDone }: { menu: Menu | null; onDone: () => void }) {
         <SheetDescription>Harga dalam Rupiah. Takaran dipakai untuk memotong stok setiap pesanan.</SheetDescription>
       </SheetHeader>
       <div className="grid flex-1 content-start gap-4 overflow-y-auto p-4">
+        <div>
+          <Label className="mb-1.5 block text-sm font-semibold">Foto menu</Label>
+          <div className="flex items-center gap-3">
+            <MenuPhoto
+              id={menu?.id}
+              fotoUrl={menu?.fotoUrl}
+              kategori={watch("kategori")}
+              nama={watch("nama") || "Foto menu"}
+              className="w-28 shrink-0 rounded-lg border"
+            />
+            <p className="text-xs text-muted-foreground">
+              Ilustrasi otomatis berdasarkan kategori atau foto aset sistem.
+            </p>
+          </div>
+        </div>
         <Field label="Nama menu" error={e.nama?.message}>{(p) => <Input {...p} {...register("nama")} className="h-10" />}</Field>
         <Field label="Kategori" error={e.kategori?.message}>
           {(p) => (
