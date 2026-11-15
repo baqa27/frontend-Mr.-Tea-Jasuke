@@ -73,12 +73,12 @@ function AksiBesar({ to, icon: Icon, judul, ket, utama, tour }: { to: string; ic
         utama ? "border-teh bg-teh text-primary-foreground hover:bg-teh-tua" : "bg-card hover:border-teh/40 hover:bg-teh-muda/40",
       )}
     >
-      <span className={cn("grid size-10 shrink-0 place-items-center rounded-lg", utama ? "bg-white/15" : "bg-teh-muda text-teh")}>
+      <span className={cn("grid size-10 shrink-0 place-items-center rounded-lg", utama ? "bg-primary-foreground text-primary" : "bg-teh-muda text-teh")}>
         <Icon className="size-5" aria-hidden />
       </span>
       <span>
         <span className="block font-semibold">{judul}</span>
-        <span className={cn("mt-0.5 block text-sm", utama ? "text-primary-foreground/80" : "text-muted-foreground")}>{ket}</span>
+        <span className={cn("mt-0.5 block text-sm", utama ? "text-primary-foreground" : "text-muted-foreground")}>{ket}</span>
       </span>
     </Link>
   )

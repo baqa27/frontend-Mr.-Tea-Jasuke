@@ -157,9 +157,9 @@ function EvaluasiModel() {
             caption="Perbandingan model"
             rows={data.model}
             rowKey={(m) => m.nama}
-            rowClassName={(m) => (m.terbaik ? "bg-ok-muda/50" : undefined)}
+            rowClassName={(m) => (m.terbaik ? "bg-ok-muda" : undefined)}
             columns={[
-              { key: "nama", header: "Model", mobile: "title", cell: (m) => <div><p className="font-semibold">{m.nama}{m.terbaik && <span className="ml-2 rounded-full bg-ok px-2 py-0.5 text-xs font-semibold text-white">Dipakai</span>}</p><p className="text-xs font-normal text-muted-foreground">{m.konfigurasi}</p></div> },
+              { key: "nama", header: "Model", mobile: "title", cell: (m) => <div><p className="font-semibold">{m.nama}{m.terbaik && <span className="ml-2 rounded-full bg-ok-muda px-2 py-0.5 text-xs font-semibold text-ok-teks">Dipakai</span>}</p><p className="text-xs font-normal text-muted-foreground">{m.konfigurasi}</p></div> },
               { key: "mae", header: "MAE", align: "right", cell: (m) => <span className="num font-semibold">{angka(m.mae, 1)}</span> },
               { key: "rmse", header: "RMSE", align: "right", cell: (m) => <span className="num font-semibold">{angka(m.rmse, 1)}</span> },
             ]}

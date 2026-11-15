@@ -14,7 +14,7 @@ const garis = {
 }
 
 export default function KategoriIlustrasi({ kategori, className }: Props) {
-  const warna = kategori === "teh" ? "text-teh" : kategori === "jasuke" ? "text-jagung" : "text-tinta"
+  const warna = kategori === "teh" ? "text-teh" : kategori === "jasuke" ? "text-jagung" : "text-kat-paket"
 
   return (
     <svg

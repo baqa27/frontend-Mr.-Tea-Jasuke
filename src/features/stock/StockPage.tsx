@@ -17,7 +17,7 @@ import { angka, bertanda, jam, tanggalRingkas } from "@/lib/format"
 import { cn } from "@/lib/utils"
 import type { Bahan, MutasiStok } from "@/types/domain"
 
-type Filter = "semua" | "menipis" | "aman"
+type Filter = "semua" | "hampir_habis" | "habis" | "aman"
 
 export default function StockPage() {
   const { data, isLoading, error, refetch } = useIngredients()
@@ -28,10 +28,9 @@ export default function StockPage() {
   const [pilih, setPilih] = useState<Bahan | null>(null)
 
   const aktif = useMemo(() => urutkanMenurutStatus((data ?? []).filter((b) => b.aktif)), [data])
-  const jumlahMenipis = aktif.filter((b) => b.status !== "aman").length
+  const jumlah = (s: Bahan["status"]) => aktif.filter((b) => b.status === s).length
   const daftar = aktif.filter((b) => {
-    if (filter === "menipis" && b.status === "aman") return false
-    if (filter === "aman" && b.status !== "aman") return false
+    if (filter !== "semua" && b.status !== (filter === "aman" ? "aman" : filter)) return false
     return !cari.trim() || b.nama.toLowerCase().includes(cari.trim().toLowerCase())
   })
   const risikoById = new Map((risk.data ?? []).map((r) => [r.bahanId, r]))
@@ -79,8 +78,9 @@ export default function StockPage() {
         <div className="flex gap-1.5" role="tablist" aria-label="Saring status">
           {([
             ["semua", `Semua (${aktif.length})`],
-            ["menipis", `Menipis (${jumlahMenipis})`],
-            ["aman", "Aman"],
+            ["hampir_habis", `Hampir habis (${jumlah("hampir_habis")})`],
+            ["habis", `Habis (${jumlah("habis")})`],
+            ["aman", `Aman (${jumlah("aman")})`],
           ] as [Filter, string][]).map(([f, label]) => (
             <button
               key={f}
@@ -88,8 +88,8 @@ export default function StockPage() {
               aria-selected={filter === f}
               onClick={() => setFilter(f)}
               className={cn(
-                "h-9 rounded-full border px-4 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-                filter === f ? "border-tinta bg-tinta text-white" : "bg-card text-muted-foreground hover:bg-accent",
+                "min-h-11 rounded-full border px-4 text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+                filter === f ? "border-primary bg-primary text-primary-foreground" : "bg-card text-foreground hover:bg-accent",
               )}
             >
               {label}
@@ -98,7 +98,7 @@ export default function StockPage() {
         </div>
         <div className="relative sm:ml-auto sm:w-64">
           <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
-          <Input value={cari} onChange={(e) => setCari(e.target.value)} placeholder="Cari bahan" aria-label="Cari bahan" className="h-9 bg-card pl-9" />
+          <Input value={cari} onChange={(e) => setCari(e.target.value)} placeholder="Cari bahan" aria-label="Cari bahan" className="h-11 bg-card pl-9" />
         </div>
       </div>
 
@@ -107,8 +107,8 @@ export default function StockPage() {
       ) : isLoading ? (
         <ListSkeleton rows={8} />
       ) : daftar.length === 0 ? (
-        <EmptyState title={filter === "menipis" ? "Tidak ada bahan yang menipis" : "Tidak ada bahan yang cocok"}>
-          {filter === "menipis" ? "Semua bahan masih di atas stok minimum." : "Ubah kata pencarian atau pilih Semua."}
+        <EmptyState title={filter === "hampir_habis" || filter === "habis" ? "Tidak ada bahan pada status ini" : "Tidak ada bahan yang cocok"}>
+          {filter === "hampir_habis" || filter === "habis" ? "Pilih Semua untuk melihat seluruh bahan." : "Ubah kata pencarian atau pilih Semua."}
         </EmptyState>
       ) : (
         <ResponsiveTable caption="Daftar stok bahan" rows={daftar} rowKey={(b) => b.id} columns={kolom} onRowClick={setPilih} />

@@ -15,7 +15,7 @@ export function StepIndicator({ steps, current }: { steps: string[]; current: nu
             <span
               className={cn(
                 "num grid size-7 shrink-0 place-items-center rounded-full border text-sm font-bold",
-                done && "border-ok bg-ok text-white",
+                done && "border-ok bg-ok-muda text-ok-teks",
                 now && "border-teh bg-teh text-primary-foreground",
                 !done && !now && "bg-card text-muted-foreground",
               )}

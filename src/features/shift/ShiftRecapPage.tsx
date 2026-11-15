@@ -24,11 +24,11 @@ export default function ShiftRecapPage() {
   return (
     <div className="print-full">
       {baru && (
-        <div role="status" className="mb-5 flex items-start gap-3 rounded-xl border border-ok/30 bg-ok-muda px-4 py-3 text-ok">
+        <div role="status" className="mb-5 flex items-start gap-3 rounded-xl border border-ok bg-ok-muda px-4 py-3 text-ok-teks">
           <CircleCheck className="mt-0.5 size-5 shrink-0" aria-hidden />
           <div>
             <p className="font-semibold">Shift {namaShiftLabel[r.nama]} sudah ditutup</p>
-            <p className="text-sm text-ok/90">
+            <p className="text-sm">
               {r.rekapHarianDibuat ? `Rekap harian ${tanggalPanjang(r.tanggal)} sudah dibuat. ` : ""}
               {r.durasiTutupDetik ? `Tutup shift selesai dalam ${durasi(r.durasiTutupDetik)}.` : ""}
             </p>

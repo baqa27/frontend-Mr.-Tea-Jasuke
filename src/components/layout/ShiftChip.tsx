@@ -13,14 +13,14 @@ export function ShiftChip({ className }: { className?: string }) {
       data-tour="shift-chip"
       className={cn(
         "inline-flex h-11 items-center gap-2 rounded-full border px-3 text-sm font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-        shift ? "border-jagung bg-jagung-muda text-tinta-tetap hover:bg-jagung-muda/70" : "bg-card text-muted-foreground hover:text-foreground",
+        shift ? "border-ok bg-ok-muda text-ok-teks" : "bg-card text-muted-foreground hover:text-foreground",
         className,
       )}
     >
       <span className={cn("size-2 rounded-full", shift ? "bg-ok" : "bg-muted-foreground/40")} aria-hidden />
       {shift ? (
         <span>
-          Shift {namaShiftLabel[shift.nama]} <span className="hidden font-normal text-muted-foreground sm:inline">sejak {jam(shift.dibukaPada)}</span>
+          Shift {namaShiftLabel[shift.nama]} aktif sejak {jam(shift.dibukaPada)}
         </span>
       ) : (
         "Belum ada shift"

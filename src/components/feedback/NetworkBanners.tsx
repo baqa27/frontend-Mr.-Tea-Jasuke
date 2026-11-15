@@ -22,14 +22,14 @@ export function NetworkBanners() {
 
   if (!online)
     return (
-      <div role="alert" className="no-print flex items-center gap-2 bg-bahaya px-4 py-2 text-sm font-medium text-white">
+      <div role="alert" className="no-print flex items-center gap-2 bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground">
         <WifiOff className="size-4 shrink-0" aria-hidden />
         Koneksi terputus. Data belum bisa disimpan sampai internet kembali.
       </div>
     )
   if (lambat > 0)
     return (
-      <div role="status" aria-live="polite" className="no-print flex items-center gap-2 bg-jagung-muda px-4 py-2 text-sm font-medium text-tinta-tetap">
+      <div role="status" aria-live="polite" className="no-print flex items-center gap-2 bg-jagung-muda px-4 py-2 text-sm font-medium text-foreground">
         <Loader2 className="size-4 shrink-0 animate-spin" aria-hidden />
         Server sedang dinyalakan, mohon tunggu hingga {Math.round(BATAS_TUNGGU_SERVER_MS / 1000)} detik.
       </div>

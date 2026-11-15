@@ -23,7 +23,7 @@ export function KanalToggle({ className }: { className?: string }) {
           onClick={() => setKanal(o.v)}
           className={cn(
             "flex h-10 items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-            kanal === o.v ? (o.v === "toko" ? "bg-card text-foreground shadow-sm" : "bg-shopee text-white shadow-sm") : "text-muted-foreground hover:text-foreground",
+            kanal === o.v ? (o.v === "toko" ? "bg-card text-foreground shadow-sm" : "bg-shopee-muda text-shopee shadow-sm") : "text-muted-foreground hover:text-foreground",
           )}
         >
           <o.icon className="size-4" aria-hidden />

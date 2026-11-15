@@ -86,7 +86,7 @@ export default function PosPage() {
       <div className="min-w-0">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-[28px]/8 font-extrabold tracking-tight">Catat pesanan</h1>
-          {menipis > 0 && <Link to="/stok?filter=menipis" className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-warn-muda px-3 text-sm font-semibold text-warn hover:underline"><TriangleAlert className="size-4" aria-hidden />{menipis} bahan hampir habis</Link>}
+          {menipis > 0 && <Link to="/stok" className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-warn-muda px-3 text-sm font-semibold text-warn hover:underline"><TriangleAlert className="size-4" aria-hidden />{menipis} bahan hampir habis</Link>}
         </div>
         <div className="mb-3 lg:hidden"><KanalToggle /></div>
         <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center">
