@@ -31,7 +31,7 @@ export function AppShell() {
             </div>
           </header>
         </div>
-        <main id="konten" className="print-full mx-auto w-full max-w-[1240px] flex-1 px-4 pt-5 pb-28 sm:px-6 lg:pt-7 lg:pb-12">
+        <main id="konten" className="print-full mx-auto w-full max-w-[1240px] min-w-0 flex-1 px-4 pt-5 pb-28 sm:px-6 lg:pt-7 lg:pb-12">
           <ErrorBoundary resetKey={loc.pathname}>
             <Suspense fallback={<PageSkeleton />}>
               <Outlet />
