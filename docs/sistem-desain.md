@@ -1,5 +1,7 @@
 # Sistem Desain Mr. Tea & Jasuke
 
+Dokumen ini menggantikan "nilai usulan" PRD 10.3: font Plus Jakarta Sans menggantikan Inter, primer `#8a3b12` menggantikan `#7C2D12`, dan hierarki radius menggantikan satu radius 8 px. Nilai warna status tema terang tetap mengikuti PRD.
+
 Arah: "Kedai hangat, cepat dibaca". Aplikasi kasir yang terang dan minimalis, foto menu sebagai pusat perhatian, nota bergaya struk sebagai elemen khas. Dokumen ini acuan tampilan untuk seluruh layar; token warna, tipografi, radius, jarak, gerak, ikon, dan ilustrasi diatur di sini.
 
 Prinsip:
