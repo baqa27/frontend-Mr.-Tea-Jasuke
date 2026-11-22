@@ -73,12 +73,12 @@ function AksiBesar({ to, icon: Icon, judul, ket, utama, tour }: { to: string; ic
         utama ? "border-teh bg-teh text-primary-foreground hover:bg-teh-tua" : "bg-card hover:border-teh/40 hover:bg-teh-muda/40",
       )}
     >
-      <span className={cn("grid size-10 shrink-0 place-items-center rounded-lg", utama ? "bg-white/15" : "bg-teh-muda text-teh")}>
+      <span className={cn("grid size-10 shrink-0 place-items-center rounded-lg", utama ? "bg-primary-foreground text-primary" : "bg-teh-muda text-teh")}>
         <Icon className="size-5" aria-hidden />
       </span>
       <span>
         <span className="block font-semibold">{judul}</span>
-        <span className={cn("mt-0.5 block text-sm", utama ? "text-primary-foreground/80" : "text-muted-foreground")}>{ket}</span>
+        <span className={cn("mt-0.5 block text-sm", utama ? "text-primary-foreground" : "text-muted-foreground")}>{ket}</span>
       </span>
     </Link>
   )
@@ -159,21 +159,36 @@ function BukaShift() {
             <legend className="sr-only">Shift yang dibuka</legend>
             <p className="text-sm font-semibold" aria-hidden>Shift yang dibuka</p>
             <div className="mt-2 grid grid-cols-3 gap-2" role="radiogroup" aria-label="Nama shift">
-              {SHIFTS.map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  role="radio"
-                  aria-checked={nama === s}
-                  onClick={() => setNama(s)}
-                  className={cn(
-                    "h-11 rounded-lg border text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
-                    nama === s ? "border-teh bg-teh text-primary-foreground" : "bg-background hover:bg-accent",
-                  )}
-                >
-                  {namaShiftLabel[s]}
-                </button>
-              ))}
+              {SHIFTS.map((s) => {
+                const aktif = nama === s
+                const gaya =
+                  s === "pagi"
+                    ? aktif
+                      ? "border-warn bg-warn text-tinta-tetap"
+                      : "border-warn/40 bg-warn-muda/40 hover:bg-warn-muda"
+                    : s === "siang"
+                      ? aktif
+                        ? "border-ok bg-ok text-tinta-tetap"
+                        : "border-ok/40 bg-ok-muda/40 hover:bg-ok-muda"
+                      : aktif
+                        ? "border-teh bg-teh text-tinta-tetap"
+                        : "border-teh/40 bg-teh-muda/40 hover:bg-teh-muda"
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    role="radio"
+                    aria-checked={aktif}
+                    onClick={() => setNama(s)}
+                    className={cn(
+                      "h-11 rounded-lg border text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+                      gaya,
+                    )}
+                  >
+                    {namaShiftLabel[s]}
+                  </button>
+                )
+              })}
             </div>
             {pv && nama && nama !== pv.namaShiftUsulan && (
               <p className="mt-2 text-sm text-warn">Urutan hari ini menyarankan Shift {namaShiftLabel[pv.namaShiftUsulan]}.</p>
@@ -190,6 +205,9 @@ function BukaShift() {
               {buka.isPending && <Spinner />}
               Buka Shift
             </Button>
+            {(!cek || !nama) && (
+              <p className="mt-2 text-center text-xs text-muted-foreground">Centang konfirmasi stok awal untuk membuka shift.</p>
+            )}
           </div>
         </div>
       </div>

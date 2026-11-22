@@ -3,6 +3,7 @@ import { Outlet, ScrollRestoration, useLocation } from "react-router"
 import { ErrorBoundary } from "@/components/feedback/ErrorBoundary"
 import { NetworkBanners } from "@/components/feedback/NetworkBanners"
 import { PageSkeleton } from "@/components/feedback/states"
+import { ChatbotPopup } from "@/features/assistant/ChatbotPopup"
 import { useOnboarding } from "@/features/onboarding/tour"
 import { BottomNav } from "./BottomNav"
 import { BrandMark } from "./BrandMark"
@@ -31,7 +32,7 @@ export function AppShell() {
             </div>
           </header>
         </div>
-        <main id="konten" className="print-full mx-auto w-full max-w-[1240px] flex-1 px-4 pt-5 pb-28 sm:px-6 lg:pt-7 lg:pb-12">
+        <main id="konten" className="print-full mx-auto w-full max-w-[1240px] min-w-0 flex-1 px-4 pt-5 pb-28 sm:px-6 lg:pt-7 lg:pb-12">
           <ErrorBoundary resetKey={loc.pathname}>
             <Suspense fallback={<PageSkeleton />}>
               <Outlet />
@@ -40,6 +41,7 @@ export function AppShell() {
         </main>
         <BottomNav className="lg:hidden" />
       </div>
+      <ChatbotPopup />
     </div>
   )
 }

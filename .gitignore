@@ -27,3 +27,7 @@ dist-preview
 # Konfigurasi lokal alat bantu dan gambar acuan desain (bukan milik tim)
 .claude/
 contoh ui/
+.skill/
+
+# Bukti uji visual lokal
+.qa/

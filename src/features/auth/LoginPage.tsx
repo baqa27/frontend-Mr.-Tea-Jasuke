@@ -14,6 +14,7 @@ import { toApiError } from "@/lib/api-error"
 import { env } from "@/lib/env"
 import { loginSchema, type LoginValues } from "@/schemas"
 import { useAuth } from "@/stores/auth-store"
+import { PilihTema } from "@/components/PilihTema"
 
 export default function LoginPage() {
   const [lihat, setLihat] = useState(false)
@@ -55,7 +56,7 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-dvh flex-col">
       <NetworkBanners />
-      <div className="flex flex-1 items-center justify-center px-5 py-10">
+      <div className="flex flex-1 items-center justify-center px-5 py-10 relative">
         <div className="w-full max-w-[380px]">
           <BrandMark />
           <h1 className="mt-8 text-[1.65rem] leading-tight font-bold tracking-tight">Masuk untuk mulai mencatat</h1>
@@ -129,6 +130,9 @@ export default function LoginPage() {
               </ul>
             </div>
           )}
+        </div>
+        <div className="absolute right-5 top-5" aria-hidden="false">
+          <PilihTema ringkas />
         </div>
       </div>
     </div>

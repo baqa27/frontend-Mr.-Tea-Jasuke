@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { useSession } from "@/features/auth/session"
 import { startTour } from "@/features/onboarding/tour"
 import { env } from "@/lib/env"
+import { PilihTema } from "@/components/PilihTema"
 
 const PANDUAN = [
   {
@@ -65,6 +66,11 @@ export default function HelpPage() {
           </details>
         ))}
       </div>
+      <section className="mt-8" aria-labelledby="tampilan-judul">
+        <h3 id="tampilan-judul" className="mb-3 text-lg font-bold">Tampilan</h3>
+        <p className="text-sm text-muted-foreground">Pilih tema warna aplikasi.</p>
+        <PilihTema />
+      </section>
       {/* Pengecekan statis agar modul mock tidak ikut ke dist/ produksi */}
       {import.meta.env.VITE_USE_MOCK === "true" && (
         <div className="mt-8 rounded-xl border border-dashed p-4">

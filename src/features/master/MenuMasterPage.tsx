@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Pencil, Plus, Search, Trash2 } from "lucide-react"
+import { Pencil, Plus, Search, Trash2, Upload } from "lucide-react"
 import { toast } from "sonner"
 import { useIngredients, useMenuStatus, useMenus, useSaveMenu } from "@/api/catalog"
 import { EmptyState, ErrorState, ListSkeleton } from "@/components/feedback/states"
@@ -9,6 +9,7 @@ import { AsumsiBadge, Pill } from "@/components/shared/badges"
 import { ConfirmDialog } from "@/components/shared/ConfirmDialog"
 import { Field } from "@/components/shared/Field"
 import { HelpTooltip, ISTILAH } from "@/components/shared/HelpTooltip"
+import { MenuPhoto } from "@/components/shared/MenuPhoto"
 import { PageHeader } from "@/components/shared/PageHeader"
 import { ResponsiveTable } from "@/components/shared/ResponsiveTable"
 import { Button } from "@/components/ui/button"
@@ -23,6 +24,7 @@ import { angka, kategoriLabel, parseAngka, rupiah } from "@/lib/format"
 import { cn } from "@/lib/utils"
 import { menuSchema, type MenuValues } from "@/schemas"
 import type { Menu } from "@/types/domain"
+import { pesanGalatFotoMenu } from "@/lib/menu-photo-upload"
 
 export default function MenuMasterPage() {
   const { data, isLoading, error, refetch } = useMenus()
@@ -71,9 +73,24 @@ export default function MenuMasterPage() {
           caption="Daftar menu"
           rows={daftar}
           rowKey={(m) => m.id}
-          rowClassName={(m) => (!m.aktif ? "opacity-60" : undefined)}
+          rowClassName={(m) => (!m.aktif ? "text-muted-foreground" : undefined)}
           columns={[
-            { key: "nama", header: "Menu", mobile: "title", cell: (m) => <div><p className="font-semibold">{m.nama}</p><p className="text-xs font-normal text-muted-foreground">{kategoriLabel[m.kategori]}</p></div> },
+            {
+              key: "nama",
+              header: "Menu",
+              mobile: "title",
+              cell: (m) => (
+                <div className="flex items-center gap-3">
+                  <div className="h-[42px] w-[56px] shrink-0">
+                    <MenuPhoto id={m.id} fotoUrl={m.fotoUrl} kategori={m.kategori} nama={m.nama} className="size-full rounded-md" />
+                  </div>
+                  <div>
+                    <p className="font-semibold">{m.nama}</p>
+                    <p className="text-xs font-normal text-muted-foreground">{kategoriLabel[m.kategori]}</p>
+                  </div>
+                </div>
+              ),
+            },
             { key: "status", header: "Status", mobile: "aside", cell: (m) => (m.aktif ? <Pill tone="ok">Aktif</Pill> : <Pill>Nonaktif</Pill>) },
             { key: "toko", header: "Harga toko", align: "right", cell: (m) => <span className="num font-semibold">{rupiah(m.harga.toko)}</span> },
             { key: "shopee", header: "Shopee Food", align: "right", cell: (m) => <span className="num">{m.harga.shopee_food ? rupiah(m.harga.shopee_food) : <span className="text-muted-foreground">Sama dengan toko</span>}</span> },
@@ -82,11 +99,11 @@ export default function MenuMasterPage() {
               key: "aksi", label: "", header: <span className="sr-only">Aksi</span>, align: "right",
               cell: (m) => (
                 <div className="flex justify-end gap-1">
-                  <Button variant="ghost" size="sm" onClick={() => setEdit(m)}><Pencil />Ubah</Button>
+                  <Button variant="ghost" size="sm" className="min-h-11 min-w-11" onClick={() => setEdit(m)}><Pencil />Ubah</Button>
                   {m.aktif ? (
-                    <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-bahaya" onClick={() => setNonaktif(m)}>Nonaktifkan</Button>
+                    <Button variant="ghost" size="sm" className="min-h-11 min-w-11 text-muted-foreground hover:text-bahaya" onClick={() => setNonaktif(m)}>Nonaktifkan</Button>
                   ) : (
-                    <Button variant="ghost" size="sm" onClick={() => ubahStatus(m, true)}>Aktifkan</Button>
+                    <Button variant="ghost" size="sm" className="min-h-11 min-w-11" onClick={() => ubahStatus(m, true)}>Aktifkan</Button>
                   )}
                 </div>
               ),
@@ -128,8 +145,8 @@ function MenuForm({ menu, onDone }: { menu: Menu | null; onDone: () => void }) {
   const { register, control, handleSubmit, formState, setError, watch, setValue } = useForm<MenuValues>({
     resolver: zodResolver(menuSchema),
     defaultValues: menu
-      ? { nama: menu.nama, kategori: menu.kategori, hargaToko: menu.harga.toko, hargaShopee: menu.harga.shopee_food, aktif: menu.aktif, sumberTakaran: menu.sumberTakaran, takaran: menu.takaran.map((t) => ({ bahanId: t.bahanId, jumlahPerPorsi: t.jumlahPerPorsi })) }
-      : { nama: "", kategori: "teh", hargaToko: Number.NaN, hargaShopee: null, aktif: true, sumberTakaran: "asumsi", takaran: [{ bahanId: "", jumlahPerPorsi: Number.NaN }] },
+      ? { nama: menu.nama, kategori: menu.kategori, fotoUrl: menu.fotoUrl, hargaToko: menu.harga.toko, hargaShopee: menu.harga.shopee_food, aktif: menu.aktif, sumberTakaran: menu.sumberTakaran, takaran: menu.takaran.map((t) => ({ bahanId: t.bahanId, jumlahPerPorsi: t.jumlahPerPorsi })) }
+      : { nama: "", kategori: "teh", fotoUrl: undefined, hargaToko: Number.NaN, hargaShopee: null, aktif: true, sumberTakaran: "asumsi", takaran: [{ bahanId: "", jumlahPerPorsi: Number.NaN }] },
   })
   const takaran = useFieldArray({ control, name: "takaran" })
   const e = formState.errors
@@ -138,6 +155,22 @@ function MenuForm({ menu, onDone }: { menu: Menu | null; onDone: () => void }) {
   const isiTakaran = watch("takaran")
   const hargaToko = watch("hargaToko")
   const hargaShopee = watch("hargaShopee")
+  const fotoUrl = watch("fotoUrl")
+  const [galatFoto, setGalatFoto] = useState<string>()
+  const pilihFoto = (file?: File) => {
+    if (!file) return
+    const pesan = pesanGalatFotoMenu(file)
+    if (pesan) {
+      setGalatFoto(pesan)
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = () => {
+      setValue("fotoUrl", String(reader.result), { shouldDirty: true, shouldValidate: true })
+      setGalatFoto(undefined)
+    }
+    reader.readAsDataURL(file)
+  }
   /** Harga diformat ulang saat blur, misalnya 15000 menjadi 15.000 */
   const registerHarga = (name: "hargaToko" | "hargaShopee", setValueAs: (v: unknown) => number | null) => {
     const r = register(name, { setValueAs })
@@ -155,7 +188,7 @@ function MenuForm({ menu, onDone }: { menu: Menu | null; onDone: () => void }) {
   const kirim = (v: MenuValues) => {
     const t = toast.loading(menu ? `Menyimpan ${v.nama}...` : `Menambahkan ${v.nama}...`)
     simpan.mutate(
-      { id: menu?.id, data: { nama: v.nama, kategori: v.kategori, harga: { toko: v.hargaToko, shopee_food: v.hargaShopee }, aktif: v.aktif, sumberTakaran: v.sumberTakaran, takaran: v.takaran } },
+      { id: menu?.id, data: { nama: v.nama, kategori: v.kategori, fotoUrl: v.fotoUrl, harga: { toko: v.hargaToko, shopee_food: v.hargaShopee }, aktif: v.aktif, sumberTakaran: v.sumberTakaran, takaran: v.takaran } },
       {
         onSuccess: (m) => {
           setHargaJanggal(null)
@@ -185,6 +218,34 @@ function MenuForm({ menu, onDone }: { menu: Menu | null; onDone: () => void }) {
         <SheetDescription>Harga dalam Rupiah. Takaran dipakai untuk memotong stok setiap pesanan.</SheetDescription>
       </SheetHeader>
       <div className="grid flex-1 content-start gap-4 overflow-y-auto p-4">
+        <div>
+          <Label htmlFor="foto-menu" className="mb-1.5 block text-sm font-semibold">Foto menu</Label>
+          <div className="flex items-center gap-3">
+            <MenuPhoto
+              id={fotoUrl ? undefined : menu?.id}
+              fotoUrl={fotoUrl}
+              kategori={watch("kategori")}
+              nama={watch("nama") || "Foto menu"}
+              className="w-28 shrink-0 rounded-lg border"
+            />
+            <div className="grid gap-2">
+              <Input
+                id="foto-menu"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className="sr-only"
+                onChange={(event) => {
+                  pilihFoto(event.target.files?.[0])
+                  event.target.value = ""
+                }}
+              />
+              <Button type="button" variant="outline" size="sm" asChild><Label htmlFor="foto-menu"><Upload />{fotoUrl ? "Ganti foto" : "Pilih foto"}</Label></Button>
+              {fotoUrl && <Button type="button" variant="ghost" size="sm" onClick={() => { setValue("fotoUrl", undefined, { shouldDirty: true, shouldValidate: true }); setGalatFoto(undefined) }}>Hapus foto</Button>}
+              <p id="foto-menu-petunjuk" className="text-xs text-muted-foreground">JPEG, PNG, atau WebP, maksimal 5 MB.</p>
+              {galatFoto && <p role="alert" className="text-sm text-bahaya">{galatFoto}</p>}
+            </div>
+          </div>
+        </div>
         <Field label="Nama menu" error={e.nama?.message}>{(p) => <Input {...p} {...register("nama")} className="h-10" />}</Field>
         <Field label="Kategori" error={e.kategori?.message}>
           {(p) => (

@@ -10,6 +10,8 @@ export interface MenuInput {
   harga: { toko: number; shopee_food: number | null }
   aktif: boolean
   sumberTakaran: Menu["sumberTakaran"]
+  bisaAturGula?: boolean
+  fotoUrl?: string
   takaran: { bahanId: string; jumlahPerPorsi: number }[]
 }
 export interface BahanInput {

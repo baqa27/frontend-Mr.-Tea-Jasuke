@@ -20,7 +20,7 @@ export const orderSchema = z.object({
   clientRequestId: z.string().min(1),
   kanal: z.enum(["toko", "shopee_food"], { error: "Pilih kanal penjualan." }),
   items: z
-    .array(z.object({ menuId: z.string().min(1), jumlah: jumlahPorsiSchema }))
+    .array(z.object({ menuId: z.string().min(1), jumlah: jumlahPorsiSchema, tingkatGula: z.enum(["kurang", "normal", "ekstra"]).optional().describe("Tingkat gula: Kurang, Normal, atau Ekstra.") }))
     .min(1, "Keranjang masih kosong."),
 })
 
@@ -75,6 +75,8 @@ export const menuSchema = z
         }),
       )
       .min(1, "Takaran minimal satu bahan."),
+    bisaAturGula: z.boolean().optional(),
+    fotoUrl: z.string().optional().refine((v) => !v || v.startsWith("/menu/") || /^data:image\/(jpeg|png|webp);base64,/.test(v) || v.startsWith("https://"), "Foto harus diawali dengan /menu/ atau data:image/jpeg|png|webp atau https://"),
   })
   .superRefine((v, ctx) => {
     const seen = new Set<string>()

@@ -3,6 +3,7 @@ export type Kanal = "toko" | "shopee_food"
 export type NamaShift = "pagi" | "siang" | "malam"
 export type StatusStok = "aman" | "hampir_habis" | "habis"
 export type KategoriMenu = "teh" | "jasuke" | "lainnya"
+export type TingkatGula = "kurang" | "normal" | "ekstra"
 export type Satuan = "gram" | "kg" | "ml" | "liter" | "pcs"
 
 export interface Pengguna {
@@ -40,12 +41,14 @@ export interface Menu {
   sumberTakaran: "pic" | "asumsi"
   takaran: TakaranItem[]
   tersedia: boolean
+  fotoUrl?: string
+  bisaAturGula: boolean
 }
 
 export interface BuatPesananInput {
   clientRequestId: string
   kanal: Kanal
-  items: { menuId: string; jumlah: number }[]
+  items: { menuId: string; jumlah: number; tingkatGula?: TingkatGula }[]
 }
 
 export interface ItemPesanan {
@@ -54,6 +57,7 @@ export interface ItemPesanan {
   jumlah: number
   hargaSatuan: number
   subtotal: number
+  tingkatGula?: TingkatGula
 }
 
 export interface Pesanan {

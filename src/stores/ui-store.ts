@@ -8,7 +8,7 @@ interface UiState {
   setOnline: (v: boolean) => void
 }
 
-export const useUi = create<UiState>((set) => ({
+export const useUi = create<UiState>()((set) => ({
   lambat: 0,
   online: typeof navigator === "undefined" ? true : navigator.onLine,
   mulaiLambat: () => set((s) => ({ lambat: s.lambat + 1 })),

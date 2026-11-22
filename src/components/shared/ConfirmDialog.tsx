@@ -31,7 +31,7 @@ export function ConfirmDialog({ open, onOpenChange, title, description, confirmL
               onConfirm()
             }}
             disabled={pending}
-            className={cn(destructive && "bg-bahaya text-white hover:bg-bahaya/90")}
+            className={cn(destructive && "bg-destructive text-destructive-foreground")}
           >
             {pending && <Spinner />}
             {confirmLabel}

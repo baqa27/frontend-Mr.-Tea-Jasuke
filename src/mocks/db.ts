@@ -3,7 +3,7 @@
  * Seluruh angka bersifat CONTOH. Ganti fixture dengan dataset bersih dari tim DS (W11) bila sudah tersedia.
  */
 import { format, setHours, setMinutes, subDays } from "date-fns"
-import type { Kanal, KategoriMenu, NamaShift, Peran, Satuan } from "@/types/domain"
+import type { Kanal, KategoriMenu, NamaShift, Peran, Satuan, TingkatGula } from "@/types/domain"
 
 export interface DbUser { id: string; nama: string; username: string; password: string; peran: Peran }
 export interface DbBahan {
@@ -15,10 +15,11 @@ export interface DbMenu {
   harga: { toko: number; shopee_food: number | null }
   aktif: boolean; sumberTakaran: "pic" | "asumsi"
   takaran: { bahanId: string; jumlahPerPorsi: number }[]
+  bisaAturGula: boolean; fotoUrl?: string
 }
 export interface DbOrder {
   id: string; nomor: string; shiftId: string; kanal: Kanal
-  items: { menuId: string; namaMenu: string; jumlah: number; hargaSatuan: number; subtotal: number }[]
+  items: { menuId: string; namaMenu: string; jumlah: number; hargaSatuan: number; subtotal: number; tingkatGula?: TingkatGula }[]
   total: number; dibuatOleh: string; dibuatPada: string; clientRequestId?: string
 }
 export interface DbMutasi {
@@ -52,7 +53,7 @@ export interface Db {
 }
 
 const KUNCI = "mrtea-mock-db"
-const VERSI = 5
+const VERSI = 7
 
 // ---------- RNG deterministik (mulberry32) ----------
 function rng(seed: number) {
@@ -90,7 +91,7 @@ const JASUKE_DASAR = [
   { bahanId: "b-cupjasuke", jumlahPerPorsi: 1 },
 ]
 
-const MENUS: DbMenu[] = [
+const MENUS_DASAR: Omit<DbMenu, "bisaAturGula" | "fotoUrl">[] = [
   { id: "m-teh-ori", nama: "Teh Original", kategori: "teh", harga: { toko: 3000, shopee_food: 4000 }, aktif: true, sumberTakaran: "pic",
     takaran: [{ bahanId: "b-teh", jumlahPerPorsi: 8 }, { bahanId: "b-gula", jumlahPerPorsi: 20 }, { bahanId: "b-cup16", jumlahPerPorsi: 1 }] },
   { id: "m-teh-jumbo", nama: "Teh Jumbo", kategori: "teh", harga: { toko: 5000, shopee_food: 6500 }, aktif: true, sumberTakaran: "pic",
@@ -116,6 +117,28 @@ const MENUS: DbMenu[] = [
   { id: "m-paket", nama: "Paket Teh + Jasuke", kategori: "lainnya", harga: { toko: 10000, shopee_food: null }, aktif: true, sumberTakaran: "asumsi",
     takaran: [{ bahanId: "b-teh", jumlahPerPorsi: 8 }, { bahanId: "b-gula", jumlahPerPorsi: 20 }, { bahanId: "b-cup16", jumlahPerPorsi: 1 }, ...JASUKE_DASAR, { bahanId: "b-keju", jumlahPerPorsi: 15 }] },
 ]
+
+/** Foto seed dibuat oleh scripts/buat-foto-menu.mjs. Menu tanpa foto memakai ilustrasi kategori. */
+const FOTO: Record<string, string> = {
+  "m-teh-ori": "/menu/m-teh-ori.webp",
+  "m-teh-jumbo": "/menu/m-teh-jumbo.webp",
+  "m-teh-lemon": "/menu/m-teh-lemon.webp",
+  "m-teh-leci": "/menu/m-teh-leci.webp",
+  "m-teh-susu": "/menu/m-teh-susu.webp",
+  "m-thai": "/menu/m-thai.webp",
+  "m-teh-lemon-jumbo": "/menu/m-teh-lemon-jumbo.webp",
+  "m-jasuke-ori": "/menu/m-jasuke-ori.webp",
+  "m-jasuke-keju": "/menu/m-jasuke-keju.webp",
+  "m-jasuke-coklat": "/menu/m-jasuke-coklat.webp",
+  "m-jasuke-balado": "/menu/m-jasuke-balado.webp",
+  "m-paket": "/menu/m-paket.webp",
+}
+
+const MENUS: DbMenu[] = MENUS_DASAR.map((m) => ({
+  ...m,
+  bisaAturGula: m.kategori !== "lainnya",
+  ...(FOTO[m.id] ? { fotoUrl: FOTO[m.id] } : {}),
+}))
 
 const USERS: DbUser[] = [
   { id: "u-rina", nama: "Rina", username: "rina", password: "demo123", peran: "karyawan" },

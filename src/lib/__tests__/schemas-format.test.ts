@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 import { angka, bertanda, parseAngka, rupiah } from "@/lib/format"
-import { chatSchema, jumlahPorsiSchema, menuSchema, sesuaiPresisi, stockInSchema, stokFisikSchema } from "@/schemas"
+import { chatSchema, jumlahPorsiSchema, menuSchema, orderSchema, sesuaiPresisi, stockInSchema, stokFisikSchema } from "@/schemas"
 
 describe("validasi jumlah pesanan (POS-04)", () => {
   it.each([[Number.NaN], [0], [-1], [1.5], [100]])("menolak %s", (v) => {
@@ -8,6 +8,23 @@ describe("validasi jumlah pesanan (POS-04)", () => {
   })
   it.each([[1], [2], [99]])("menerima %s", (v) => {
     expect(jumlahPorsiSchema.safeParse(v).success).toBe(true)
+  })
+})
+
+describe("validasi orderSchema", () => {
+  const pesanan = {
+    clientRequestId: "req-1",
+    kanal: "toko",
+    items: [{ menuId: "m1", jumlah: 1 }],
+  }
+  it("menerima pesanan tanpa tingkatGula dan dengan tingkatGula valid", () => {
+    expect(orderSchema.safeParse(pesanan).success).toBe(true)
+    expect(orderSchema.safeParse({ ...pesanan, items: [{ menuId: "m1", jumlah: 1, tingkatGula: "kurang" }] }).success).toBe(true)
+    expect(orderSchema.safeParse({ ...pesanan, items: [{ menuId: "m1", jumlah: 1, tingkatGula: "normal" }] }).success).toBe(true)
+    expect(orderSchema.safeParse({ ...pesanan, items: [{ menuId: "m1", jumlah: 1, tingkatGula: "ekstra" }] }).success).toBe(true)
+  })
+  it("menolak tingkatGula tidak valid", () => {
+    expect(orderSchema.safeParse({ ...pesanan, items: [{ menuId: "m1", jumlah: 1, tingkatGula: "banyak" }] }).success).toBe(false)
   })
 })
 
@@ -44,6 +61,12 @@ describe("validasi master menu", () => {
   it("menolak harga desimal atau nol", () => {
     expect(menuSchema.safeParse({ ...dasar, hargaToko: 0 }).success).toBe(false)
     expect(menuSchema.safeParse({ ...dasar, hargaToko: 2500.5 }).success).toBe(false)
+  })
+  it("memvalidasi fotoUrl dan bisaAturGula", () => {
+    expect(menuSchema.safeParse({ ...dasar, bisaAturGula: true, fotoUrl: "/menu/m-teh-ori.webp" }).success).toBe(true)
+    expect(menuSchema.safeParse({ ...dasar, bisaAturGula: false, fotoUrl: "https://example.com/foto.jpg" }).success).toBe(true)
+    expect(menuSchema.safeParse({ ...dasar, bisaAturGula: true, fotoUrl: "data:image/webp;base64,xxxx" }).success).toBe(true)
+    expect(menuSchema.safeParse({ ...dasar, fotoUrl: "invalid-url" }).success).toBe(false)
   })
 })
 

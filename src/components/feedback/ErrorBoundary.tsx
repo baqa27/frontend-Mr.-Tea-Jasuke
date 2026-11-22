@@ -29,7 +29,7 @@ export class ErrorBoundary extends Component<Props, State> {
     return (
       <div role="alert" className="rounded-xl border border-bahaya/25 bg-bahaya-muda/50 p-5">
         <p className="font-semibold text-bahaya">Bagian ini gagal ditampilkan</p>
-        <p className="mt-1 text-sm text-foreground/80">Muat ulang bagian ini. Bila terus terjadi, laporkan ke tim dengan tangkapan layar.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Muat ulang bagian ini. Bila terus terjadi, laporkan ke tim dengan tangkapan layar.</p>
         <Button variant="outline" size="sm" className="mt-3" onClick={this.reset}>
           Muat ulang bagian ini
         </Button>

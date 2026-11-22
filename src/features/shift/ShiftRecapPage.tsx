@@ -24,11 +24,11 @@ export default function ShiftRecapPage() {
   return (
     <div className="print-full">
       {baru && (
-        <div role="status" className="mb-5 flex items-start gap-3 rounded-xl border border-ok/30 bg-ok-muda px-4 py-3 text-ok">
+        <div role="status" className="mb-5 flex items-start gap-3 rounded-xl border border-ok bg-ok-muda px-4 py-3 text-ok-teks">
           <CircleCheck className="mt-0.5 size-5 shrink-0" aria-hidden />
           <div>
             <p className="font-semibold">Shift {namaShiftLabel[r.nama]} sudah ditutup</p>
-            <p className="text-sm text-ok/90">
+            <p className="text-sm">
               {r.rekapHarianDibuat ? `Rekap harian ${tanggalPanjang(r.tanggal)} sudah dibuat. ` : ""}
               {r.durasiTutupDetik ? `Tutup shift selesai dalam ${durasi(r.durasiTutupDetik)}.` : ""}
             </p>
@@ -54,7 +54,16 @@ export default function ShiftRecapPage() {
         <Kotak label="Shopee Food" nilai={rupiah(r.omzetPerKanal.shopee_food)} />
         <Kotak label="Bahan berselisih" nilai={`${berselisih} dari ${r.stok.length}`} />
       </div>
-      <Panel title="Stok per bahan" bodyClassName="p-0">
+      <Panel
+        title={
+          <span className="flex items-center gap-2">
+            <span className={cn("size-2.5 rounded-full", r.nama === "pagi" ? "bg-warn" : r.nama === "siang" ? "bg-ok" : "bg-teh")} aria-hidden />
+            Stok per bahan
+          </span>
+        }
+        bodyClassName="p-0"
+        className={r.nama === "pagi" ? "border-l-4 border-l-warn" : r.nama === "siang" ? "border-l-4 border-l-ok" : "border-l-4 border-l-teh"}
+      >
         <ResponsiveTable
           flush
           dense

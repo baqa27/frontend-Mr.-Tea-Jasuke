@@ -16,7 +16,7 @@ export function BottomNav({ className }: { className?: string }) {
   const { utama, lainnya } = bottomNav(pengguna.peran)
   const lainnyaAktif = lainnya.some((i) => loc.pathname.startsWith(i.to))
 
-  const item = "flex h-full flex-1 flex-col items-center justify-center gap-0.5 text-[11px] font-semibold text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+  const item = "flex h-full flex-1 flex-col items-center justify-center gap-0.5 text-xs font-semibold text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
   return (
     <>
       <nav

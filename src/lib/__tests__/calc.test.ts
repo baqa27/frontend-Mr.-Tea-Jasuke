@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest"
 import {
   hargaKanal, kategoriSelisih, melewatiToleransi, samaIsiPesanan, saranBeli, selisihBahan, selisihStok, statusStok, stokTercatat, totalKeranjang, wajibCatatanSelisih,
 } from "@/lib/calc"
+import type { TingkatGula } from "@/types/domain"
+
+function item(menuId: string, jumlah: number, tingkatGula?: TingkatGula) { return { menuId, jumlah, tingkatGula } }
 
 const menus = [
   { id: "a", harga: { toko: 3000, shopee_food: 4000 } },
@@ -66,6 +69,11 @@ describe("isi pesanan sama (POS-06)", () => {
   const pesanan = { kanal: "toko" as const, items: [{ menuId: "a", jumlah: 2 }, { menuId: "b", jumlah: 1 }] }
   it("urutan item tidak berpengaruh", () => {
     expect(samaIsiPesanan(pesanan, { kanal: "toko", items: [{ menuId: "b", jumlah: 1 }, { menuId: "a", jumlah: 2 }] })).toBe(true)
+  })
+  it("tingkat gula beda dianggap isi beda", () => {
+    expect(samaIsiPesanan(pesanan, { kanal: "toko", items: [item("a", 2, "kurang"), item("b", 1)] })).toBe(false)
+    expect(samaIsiPesanan(pesanan, { kanal: "toko", items: [item("a", 2, undefined), item("b", 1)] })).toBe(true)
+    expect(samaIsiPesanan(pesanan, { kanal: "toko", items: [item("a", 2, "normal"), item("b", 1)] })).toBe(true)
   })
   it("beda jumlah, item, atau kanal dianggap beda", () => {
     expect(samaIsiPesanan(pesanan, { kanal: "toko", items: [{ menuId: "a", jumlah: 3 }, { menuId: "b", jumlah: 1 }] })).toBe(false)

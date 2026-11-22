@@ -13,12 +13,12 @@ export function StockBell() {
   return (
     <Popover>
       <PopoverTrigger
-        className="relative grid size-9 place-items-center rounded-full text-foreground hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        className="relative grid size-11 place-items-center rounded-full text-foreground hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
         aria-label={menipis.length ? `${menipis.length} bahan perlu diperhatikan` : "Tidak ada peringatan stok"}
       >
         <Bell className="size-[1.15rem]" />
         {menipis.length > 0 && (
-          <span className="num absolute -top-0.5 -right-0.5 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-bahaya px-1 text-[11px] font-bold text-white">
+          <span className="num absolute -top-0.5 -right-0.5 grid size-5 place-items-center rounded-full bg-destructive font-bold text-destructive-foreground">
             {menipis.length}
           </span>
         )}
@@ -42,7 +42,7 @@ export function StockBell() {
           </ul>
         )}
         <div className="border-t p-2">
-          <Link to="/stok?filter=menipis" className="block rounded-md px-2 py-1.5 text-sm font-medium text-teh hover:bg-accent">
+          <Link to="/stok" className="block rounded-md px-2 py-2 text-sm font-medium text-teh hover:bg-accent">
             Buka halaman stok
           </Link>
         </div>

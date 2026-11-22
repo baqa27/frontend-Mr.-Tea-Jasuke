@@ -65,7 +65,7 @@ export default function IngredientMasterPage() {
           caption="Daftar bahan baku"
           rows={data}
           rowKey={(b) => b.id}
-          rowClassName={(b) => (!b.aktif ? "opacity-60" : undefined)}
+          rowClassName={(b) => (!b.aktif ? "text-muted-foreground" : undefined)}
           columns={[
             { key: "nama", header: "Bahan", mobile: "title", cell: (b) => <span className="font-semibold">{b.nama}</span> },
             { key: "status", header: "Status", mobile: "aside", cell: (b) => (b.aktif ? <Pill tone="ok">Aktif</Pill> : <Pill>Nonaktif</Pill>) },
@@ -75,8 +75,10 @@ export default function IngredientMasterPage() {
             { key: "tol", label: "Toleransi", header: <span className="inline-flex items-center gap-1">Toleransi <HelpTooltip istilah="Toleransi selisih">{ISTILAH.toleransi}</HelpTooltip></span>, align: "right", cell: (b) => <span className="num">{angka(b.toleransiSelisih, 2)}</span> },
             {
               key: "aksi", label: "", header: <span className="sr-only">Aksi</span>, align: "right",
+              headerClassName: "w-[216px]",
+              className: "w-[216px]",
               cell: (b) => (
-                <div className="flex justify-end gap-1">
+                <div className="flex justify-end items-center gap-1 whitespace-nowrap">
                   <Button variant="ghost" size="sm" onClick={() => setEdit(b)}><Pencil />Ubah</Button>
                   {b.aktif ? (
                     <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-bahaya" onClick={() => setNonaktif(b)}>Nonaktifkan</Button>

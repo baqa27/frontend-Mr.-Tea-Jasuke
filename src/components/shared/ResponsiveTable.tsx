@@ -34,8 +34,8 @@ export function ResponsiveTable<T>({ rows, columns, rowKey, onRowClick, rowClass
 
   return (
     <>
-      <div className={cn("hidden overflow-x-auto md:block", !flush && "rounded-xl border bg-card")}>
-        <table className="w-full text-sm">
+      <div className={cn("max-w-full hidden overflow-x-auto md:block", !flush && "rounded-xl border bg-card")}>
+        <table className="w-full text-sm table-fixed">
           {caption && <caption className="sr-only">{caption}</caption>}
           <thead>
             <tr className="border-b bg-muted/50">
