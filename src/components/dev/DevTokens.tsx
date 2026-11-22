@@ -11,7 +11,7 @@ const TERANG = [
 
 const GELAP: [string, string][] = [
   ["kertas", "#141a17"], ["kartu", "#1c2420"], ["tinta", "#eef1ec"], ["abu", "#a9b3ad"], ["garis", "#2e3833"], ["muted", "#252f2a"],
-  ["teh", "#e9a06f"], ["teh-tua", "#f3c3a1"], ["teh-muda", "#3a2418"], ["jagung", "#f2b705"], ["jagung-muda", "#3a3006"],
+  ["teh", "#e9a06f"], ["teh-tua", "#f3c3a1"], ["teh-muda", "#3a2418"], ["jagung", "#F4D026"], ["jagung-muda", "#3a3006"],
   ["ok", "#4cc38a"], ["ok-muda", "#123826"], ["ok-teks", "#bdeed3"], ["bahaya", "#ff8a7a"], ["bahaya-muda", "#3d1712"],
   ["warn", "#f0b35a"], ["warn-muda", "#3a2a0c"], ["info", "#8fb3ff"], ["info-muda", "#172645"],
   ["shopee", "#ff9a66"], ["shopee-muda", "#3a1d10"], ["kat-teh", "#e9a06f"], ["kat-teh-muda", "#3a2418"],

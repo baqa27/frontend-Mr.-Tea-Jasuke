@@ -53,7 +53,7 @@ export interface Db {
 }
 
 const KUNCI = "mrtea-mock-db"
-const VERSI = 6
+const VERSI = 7
 
 // ---------- RNG deterministik (mulberry32) ----------
 function rng(seed: number) {

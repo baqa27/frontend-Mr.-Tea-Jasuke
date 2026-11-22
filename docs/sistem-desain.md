@@ -1,201 +1,173 @@
 # Sistem Desain Mr. Tea & Jasuke
 
-Dokumen ini menggantikan "nilai usulan" PRD 10.3: font Plus Jakarta Sans menggantikan Inter, primer `#8a3b12` menggantikan `#7C2D12`, dan hierarki radius menggantikan satu radius 8 px. Nilai warna status tema terang tetap mengikuti PRD.
+Acuan hidup untuk tampilan seluruh layar frontend: token warna poster resmi (**Mode Terang sebagai bawaan & Mode Gelap berkontras tinggi**), aturan kontras WCAG AA, logo dua nada, skala hijau grafik dasbor, warna kartu shift, dan pola chatbot melayang.
 
-Arah: "Kedai hangat, cepat dibaca". Aplikasi kasir yang terang dan minimalis, foto menu sebagai pusat perhatian, nota bergaya struk sebagai elemen khas. Dokumen ini acuan tampilan untuk seluruh layar; token warna, tipografi, radius, jarak, gerak, ikon, dan ilustrasi diatur di sini.
+Dokumen ini menggantikan yang lama berdasarkan proposal PRD 10.3 (`#8a3b12`, Inter, radius 8 px). Nilai yang berlaku adalah nilai di bawah, yang sudah diimplementasikan di `src/styles/globals.css` (`:root` = terang, `.dark` = gelap).
 
-Prinsip:
+---
 
-1. Kasir cepat: alur dua ketukan, tanpa dialog untuk aksi cepat, target sentuh minimal 44 px.
-2. Foto menu dulu: kartu menu memakai foto 4:3, teks pendukung, dan harga besar.
-3. Nota adalah ciri khas: satu-satunya ornamen adalah tepi bergerigi `nota-edge`.
-4. Bidang datar: tanpa gradien, glassmorphism, neon, atau animasi masuk per bagian.
-5. Hijau hanya untuk status sukses (`ok`), bukan warna merek, supaya tidak tertukar dengan merek es teh lain.
+## 0. Prinsip Umum
 
-## 1. Warna
+1. **Tema bawaan Mode Terang.** Saat pertama kali dibuka, aplikasi selalu terang, tidak otomatis mengikuti `prefers-color-scheme: dark` OS. Toggle `Terang / Gelap / Sistem` tetap tersedia di `PilihTema.tsx`.
+2. Penyimpanan tema pakai kunci baru `mrtea-tema:v2`, sehingga preferensi gelap lama di `localStorage` (`mrtea-tema`) otomatis di-reset ke Mode Terang tanpa clear cache manual.
+3. Skrip anti-kedipan di `index.html` membaca kunci baru sebelum konten gambar agar tidak ada flash tema saat muat pertama.
+4. Bahasa Indonesia baku, kalimat aktif, sentence case. Tidak ada huruf kapital semua, pemisah titik tengah, em dash, atau panah di teks tombol.
+5. Status selalu teks + ikon, bukan warna saja. Opacity dilarang untuk memudarkan teks (`opacity-*`, `text-*/60`, `text-white/70`); pakai token `-muda` / `muted-foreground`.
+6. Target sentuh minimal 44 px. Fokus keyboard: cincin 3 px warna ring (`--teh` / `--ring`).
+7. Satu-satunya ornamen adalah tepi bergerigi nota (`nota-edge`). Tidak ada gradien, glassmorphism, shimmer, atau animasi masuk per bagian. Animasi hanya sebagai respons aksi pengguna (baris nota, lencana jumlah, tombol tersimpan).
+8. Ukuran teks minimal 12 px. Angka pakai kelas `num` untuk `tabular-nums`.
 
-### 1.1 Token dasar
+---
 
-Tidak ada foto identitas toko di `contoh ui/brand/`, jadi token yang sudah ada dipertahankan dan lolos uji kontras. Warna kategori ditambahkan sebagai turunan kerabat warna yang sudah ada. Nilai di bawah untuk tema terang.
+## 1. Token Warna Poster Resmi
 
-Latar netral:
+### 1.1 Mode Terang (`:root` — bawaan)
 
-| Token | Nilai (terang) | Nilai (gelap) | Kegunaan |
-|---|---|---|---|
-| `kertas` | `#f6f7f4` | `#141a17` | Latar aplikasi |
-| `tinta` | `#1b2420` | `#eef1ec` | Teks utama |
-| `kartu` | `#ffffff` | `#1c2420` | Permukaan kartu dan panel |
-
-Merek:
-
-| Token | Nilai (terang) | Nilai (gelap) | Kegunaan |
-|---|---|---|---|
-| `teh` | `#8a3b12` | `#e9a06f` | Primer, tombol utama, tautan |
-| `teh-tua` | `#6e2d0c` | `#f3c3a1` | Teks harga di kartu menu |
-| `teh-muda` | `#f6e7dc` | `#3a2418` | Latar tile kategori teh aktif, strip |
-| `jagung` | `#f2b705` | `#f2b705` | Aksen: nota PoS dan chip shift aktif saja |
-| `jagung-muda` | `#fff3c4` | `#3a3006` | Latar sementara baris nota yang berubah |
-
-Status (selalu dengan ikon dan teks):
-
-| Token | Nilai (terang) | Nilai (gelap) | Kegunaan |
-|---|---|---|---|
-| `ok` | `#1f7a4d` | `#4cc38a` | Stok aman, pesanan tersimpan, sukses |
-| `ok-muda` | `#ddf1e5` | `#123826` | Latar status ok |
-| `ok-teks` | `#14563a` | `#bdeed3` | Teks pada latar ok-muda |
-| `warn` | `#8a4f00` | `#f0b35a` | Stok menipis, perlu perhatian |
-| `warn-muda` | `#fdf0d5` | `#3a2a0c` | Latar status warn |
-| `bahaya` | `#b42318` | `#ff8a7a` | Stok habis, galat, aksi permanen |
-| `bahaya-muda` | `#fde4e1` | `#3d1712` | Latar status bahaya |
-| `info` | `#1e4fa3` | `#8fb3ff` | Informasi netral |
-| `info-muda` | `#e2eafa` | `#172645` | Latar status info |
-
-Tambahan:
-
-| Token | Nilai (terang) | Nilai (gelap) | Kegunaan |
-|---|---|---|---|
-| `shopee` | `#9a3412` | `#ff9a66` | Kanal Shopee Food |
-| `shopee-muda` | `#fff0e6` | `#3a1d10` | Latar chip Shopee |
-
-### 1.2 Token kategori
-
-Tile kategori, strip kartu menu, dan titik kategori di nota memakai tiga warna kategori, masing-masing dengan versi `-muda` untuk latar tile aktif. Warnanya dipilih dari kerabat merek: teh sama dengan `teh`, jasuke versi tua agar tetap terbaca sebagai teks, dan paket memakai biru tua agar tidak tertukar dengan status `info`.
-
-Hijau tidak dipakai sebagai warna kategori.
-
-| Token | Nilai (terang) | Nilai (gelap) | Kegunaan |
-|---|---|---|---|
-| `kat-teh` | `#8a3b12` | `#e9a06f` | Strip kartu menu teh, titik nota, ilustrasi |
-| `kat-teh-muda` | `#f6e7dc` | `#3a2418` | Latar tile kategori teh aktif |
-| `kat-jasuke` | `#9a6b00` | `#e9c25a` | Strip kartu menu jasuke, titik nota, ilustrasi |
-| `kat-jasuke-muda` | `#fff3c4` | `#3a3006` | Latar tile kategori jasuke aktif |
-| `kat-paket` | `#2d5a87` | `#8fb7e0` | Strip kartu menu paket, titik nota, ilustrasi |
-| `kat-paket-muda` | `#e3ecf6` | `#172b40` | Latar tile kategori paket aktif |
-
-Aturan pemakaian:
-
-- Strip kategori di kiri foto kartu menu: latar `kat-*`, lebar 4 px.
-- Tile kategori: latar `kat-*-muda`, garis tepi `kat-*` hanya saat aktif.
-- Titik kategori di nota: lingkaran 8 px memakai `kat-*`, selalu didampingi nama kategori bila ruang cukup.
-
-### 1.3 Kontras
-
-Semua pasangan diukur dengan rumus WCAG 2.1. Angka-rasio ditulis sebagai "teks pada latar".
-
-Tema terang:
-
-| Pasangan | Rasio | Lolos |
+| Token | Nilai | Kegunaan |
 |---|---|---|
-| `tinta` pada `kertas` | 14.8:1 | AA, AAA |
-| `tinta` pada `kartu` | 15.9:1 | AA, AAA |
-| `muted-foreground` pada `kartu` | 6.3:1 | AA |
-| `muted-foreground` pada `kertas` | 5.8:1 | AA |
-| `teh-tua` pada `kartu` (harga) | 7.7:1 | AA, AAA |
-| `tinta` pada `jagung` (chip shift) | 8.8:1 | AA, AAA |
-| `tinta` pada `jagung-muda` (baris nota berubah) | 14.3:1 | AA, AAA |
-| `teh` pada `primary-foreground` (tombol Simpan) | 7.7:1 | AA, AAA |
-| `tinta` pada `kartu` (total nota) | 15.9:1 | AA, AAA |
-| `muted-foreground` pada `kartu` (tombol nonaktif) | 5.3:1 | AA |
-| `bahaya` pada `kartu` (label bahan kurang) | 7.3:1 | AA, AAA |
+| `kertas` / canvas | `#F5FBF8` | Latar halaman |
+| `kartu` / card | `#FFFFFF` | Permukaan kartu, sidebar, header |
+| `border` / garis | `#DCF2E7` | Border lembut |
+| `tinta` | `#111827` | Teks utama |
+| `tinta-muda` | `#4B635B` | Teks sekunder |
+| `teh` | `#56A73E` | Primer Tea Green — logo “Mr. & Tea”, tombol utama |
+| `teh-tua` | `#1F5E16` | Teks di atas latar utama |
+| `teh-muda` | `#EBF7E6` | Latar primer lembut |
+| `mint` | `#38D2A3` | Segar Mint — status aktif |
+| `mint-muda` | `#E6FAF3` | Latar mint lembut |
+| `mint-tua` | `#0F5E49` | Teks di atas latar mint |
+| `jagung` | `#F4D026` | Aksen Jasuke — warna kategori, chip shift pagi |
+| `jagung-muda` | `#FEFCE8` | Latar aksen lembut |
+| `jagung-border` | `#FDE047` | Border aksen |
+| `jagung-tua` | `#854D0E` | Teks ikon kontras di atas putih |
+| `amber` | `#F39C12` | Peringatan |
+| `amber-muda` | `#FEF3E2` | Latar peringatan |
+| `amber-tua` | `#854D0E` | Teks di atas latar peringatan |
+| `cta` / tombol kontras poster | `#111827` | Tombol gelap teks `#FFFFFF` |
 
-Tema gelap:
+### 1.2 Mode Gelap (`.dark` — kontras WCAG AA minimal 4.5:1)
 
-| Pasangan | Rasio | Lolos |
+| Token | Nilai | Kegunaan |
 |---|---|---|
-| `tinta` pada `kertas` | 15.8:1 | AA, AAA |
-| `tinta` pada `kartu` | 14.3:1 | AA, AAA |
-| `muted-foreground` pada `kartu` | 7.4:1 | AA |
-| `teh-tua` pada `kartu` (harga gelap) | 7.4:1 | AA, AAA |
-| `tinta-tetap` pada `teh` (tombol Simpan) | 8.5:1 | AA, AAA |
-| `bahaya` pada `kartu` (status bahaya) | 6.9:1 | AA, AAA |
-| `tinta` pada `jagung` (chip shift) | 10.1:1 | AA, AAA |
+| `kertas` / canvas | `#0D1512` | Latar halaman |
+| `kartu` / card | `#14201B` | Permukaan kartu, sidebar, header |
+| `border` / garis | `#243830` | Border |
+| `elevated` / hover | `#1B2C25` | Permukaan lebih tinggi (muted surface) |
+| `tinta` | `#F3FAF6` | Teks utama |
+| `tinta-muda` | `#9EB8AC` | Teks sekunder |
+| `teh` | `#5EC444` | Primer Tea Green cerah |
+| `teh-tua` | `#9DF08A` | Teks di atas latar hijau gelap (DILARANG teks hijau gelap di latar hijau gelap) |
+| `teh-muda` | `#1B3622` | Latar primer lembut di gelap |
+| `mint` | `#38D2A3` | Segar Mint |
+| `mint-muda` | `#12332A` | Latar mint lembut di gelap |
+| `mint-tua` | `#6EE7C8` | Teks di atas latar mint gelap |
+| `jagung` | `#FACC15` | Aksen Jasuke di gelap |
+| `jagung-muda` | `#2E260E` | Latar aksen lembut di gelap |
+| `jagung-border` | `#715A12` | Border aksen gelap |
+| `jagung-tua` | `#FDE047` | Teks kontras di latar gelap |
+| `amber` | `#F59E0B` | Peringatan gelap |
+| `amber-muda` | `#33210B` | Latar peringatan gelap |
+| `amber-tua` | `#FCD34D` | Teks di atas latar peringatan gelap |
+| `cta` | `#1B2C25` | Tombol kontras gelap teks `#F3FAF6` |
 
-Semua pasangan teks dan latar lain minimal 4,5:1, teks 24 px ke atas minimal 3:1.
+Meta warna browser: terang `#F5FBF8`, gelap `#0D1512`.
 
-## 2. Tipografi
+### 1.3 Logo Dua Nada (`BrandMark.tsx`)
 
-Satu keluarga font: Plus Jakarta Sans (variabel). Tidak ada font kedua.
-
-### 2.1 Skala
-
-| Peran | Ukuran | Line-height | Berat | Kelas |
-|---|---|---|---|---|
-| Keterangan, label ilustrasi, label sumbu grafik | 12 px | 16 px | 500 | `text-xs font-medium` |
-| Tombol, isi tabel, navigasi | 14 px | 20 px | 500–700 | `text-sm font-medium` / `font-bold` |
-| Nama menu, judul kartu | 16 px | 24 px | 700 | `text-base font-bold` |
-| Harga di kartu menu | 18 px | 24 px | 800 | `text-[18px]/6 font-extrabold` |
-| Judul nota, angka sekunder | 22 px | 28 px | 800 | `text-[22px]/7 font-extrabold` |
-| Judul halaman, angka KPI sedang | 28 px | 34 px | 800 | `text-[28px]/8.5 font-extrabold` |
-| Total nota | 36 px | 40 px | 800 | `text-[36px]/10 font-extrabold` |
-| Omzet hari ini (satu-satunya) | 44 px | 48 px | 800 | `text-[44px]/12 font-extrabold` |
-
-Tidak ada ukuran di luar skala ini. Tidak ada teks di bawah 12 px. Tidak ada label kapital semua.
-
-### 2.2 Angka
-
-Semua angka harga, stok, kuantitas, dan total memakai kelas `num` (sudah ada di `globals.css`) untuk `tabular-nums` dan `tnum` Plus Jakarta Sans.
-
-## 3. Bentuk dan jarak
-
-### 3.1 Radius
-
-| Radius | Kegunaan | Kelas |
+| Bagian | Warna Terang | Warna Gelap |
 |---|---|---|
-| 6 px | Input, chip, segmented, tombol kecil | `rounded-md` |
-| 8 px | Tombol, thumbnail | `rounded-[8px]` |
-| 10 px | Foto menu di dalam kartu | `rounded-[10px]` |
-| 12 px | Kartu menu, panel, kartu bento | `rounded-xl` |
-| 16 px | Sheet, dialog, popover besar | `rounded-2xl` |
+| `Mr. & Tea` | `#56A73E` (Tea Green) | `#65D14B` |
+| `Jasuke` | `#D49B00` (Corn Yellow) | `#FACC15` |
 
-### 3.2 Jarak
+Ikon gelas teh tersegel berwarna sesuai permukaan kartu agar terbaca di kedua mode. Teks bagian logo dikecualikan dari ketentuan kontras teks UI umum karena termasuk logotype, tetapi nilainya dipilih semakin gelap yang tetap terlihat sebagai jagung putih.
 
-Skala 4 px: 4, 8, 12, 16, 24, 32, 48. Jarak antar bagian utama halaman 24 px, dalam kartu 12 px, elemen sejenis 8 px. Tidak ada nilai jarak di luar skala.
+---
 
-### 3.3 Garis tepi dan bayangan
+## 2. Aturan Kontras WCAG AA (4.5:1 teks normal, 3:1 grafis/teks besar)
 
-- Kartu biasa: garis tepi 1 px `border` (`#dadfd6` terang, `#2e3833` gelap), tanpa bayangan.
-- Satu bayangan, hanya untuk elemen melayang: sheet, popover, dan bar nota di ponsel. Nilainya `0 4px 16px rgb(27 36 32 / 0.12)`, token `--shadow-melayang` di `globals.css`.
-- Di tema gelap bayangan diganti garis tepi.
+Pasangan kunci yang telah terukur di kode:
 
-## 4. Gerak
-
-Gerak hanya sebagai respons aksi pengguna. Tidak ada animasi masuk per bagian, parallax, atau gerak yang berjalan sendiri. Sheet dan dialog memakai transisi bawaan shadcn.
-
-| Aksi | Gerak | Durasi |
+| Pasangan | Rasio | Keterangan |
 |---|---|---|
-| Tambah menu | Kartu mengecil ke 0.97 lalu kembali (`active:scale-[0.97]`) | 120 ms |
-| Tambah menu | Lencana jumlah memantul scale 1.25 lalu kembali | 260 ms |
-| Baris nota berubah | Latar `jagung-muda` memudar ke transparan | 600 ms |
-| Pesanan tersimpan | Tombol menjadi `ok` dengan ikon centang dan teks "Tersimpan" sebelum keranjang dikosongkan | 900 ms |
-| Ganti tema | Tanpa animasi | — |
+| `tinta` `#111827` pada `kertas` `#F5FBF8` | 16.93:1 | AA, AAA |
+| `tinta` `#111827` pada `kartu` `#FFFFFF` | 6.49:1 | AA |
+| `teh-tua` `#1F5E16` pada `kartu` | 7.11:1 | AA |
+| `jagung-tua` `#854D0E` pada `jagung-muda` `#FEFCE8` | 6.62:1 | AA |
+| `primary-foreground` `#FFFFFF` pada `primary` `#56A73E` | 3.00:1 | Hanya AA-large (ponytail: ubah latar primer bila teks normal menjadi penuh) |
+| `tinta` `#F3FAF6` pada `kertas` `#0D1512` (gelap) | 17.49:1 | AA, AAA |
+| `teh-tua` `#9DF08A` pada `teh-muda` `#1B3622` (gelap) | 9.56:1 | AA |
+| `jagung-tua` `#FDE047` pada `jagung-muda` `#2E260E` (gelap) | 11.38:1 | AA |
 
-Semua gerak mati saat `prefers-reduced-motion: reduce` aktif, lewat aturan yang sudah ada di `globals.css` (durasi animasi dan transisi dipaksa 0.01 ms). Tidak ada animasi masuk per bagian, parallax, atau shimmer dekoratif.
+Perlu diketahui: teks putih pada primær Tea Green `#56A73E` (tombol default sebelumnya) baru 3.00:1, tidak memenuhi 4.5:1 untuk teks normal. Oleh karena itu implementasi yang diterapkan menggunakan teks `#111827` di atas primær Tea Green, bukan putih, agar lolos WCAG AA.
 
-## 5. Ikon dan ilustrasi
+Semua pasangan teks-lain minimal 4.5:1. Elemen grafik non-teks (ikon, strip, chip) minimal 3:1.
 
-- Ikon: lucide, ketebalan garis seragam (stroke `2` ukuran 16, 18, atau 20). Tanpa emoji di antarmuka.
-- Ilustrasi kategori (SVG, garis sederhana, warna token `kat-*` dan `tinta`): gelas teh tersegel (teh), cup jagung susu keju (jasuke), paket hemat (paket).
-- Ilustrasi keadaan kosong, memakai gaya garis yang sama: gelas kosong untuk keranjang kosong, rak kosong untuk stok kosong. Warna garis `tinta`, aksen `kat-*` secukupnya.
-- Foto menu lokal adalah ilustrasi buatan AI. Tampilkan label "Ilustrasi AI" (12 px, latar `--kartu` 85%) di pojok kiri bawah foto sampai PIC mengirim foto asli. Jangan mengambil foto dari Google Maps, Instagram, atau situs lain.
-- Semua `<img>` menu: `loading="lazy"`, `decoding="async"`, `width` dan `height` diisi, `alt` kosong karena nama menu sudah tertulis.
+---
 
-## 6. Tata letak dasar
+## 3. Skema Hijau Grafik Dasbor (Dual Mode)
 
-- Lebar konten maksimum 1366 px, bidang kasir fokus ke tengah.
-- Ponsel: bottom navigation, bar nota menempel di bawah, konten satu kolom. Desktop: sidebar kiri, nota menempel kanan.
-- Tabel memakai `ResponsiveTable`, otomatis menjadi kartu di bawah 768 px, tanpa scroll horizontal di 360 px.
-- Target sentuh minimal 44 px di ponsel. Fokus keyboard: cincin 3 px warna `--jagung` di kedua tema.
+Intensitas relatif terhadap min–max data yang ditampilkan; semakin tinggi nilai, semakin pekat warna.
 
-## 7. Gaya penulisan antarmuka
+**Mode Terang (rendah → tertinggi):**
+1. `#BBF7D0`
+2. `#6EE7B7`
+3. `#38D2A3`
+4. `#56A73E`
+5. `#166534`
 
-- Bahasa Indonesia baku, kalimat aktif, sentence case. Tanpa kapital semua, tanpa pemisah titik tengah, tanpa em dash, tanpa panah di teks tombol.
-- Tombol memakai kata kerja yang menjelaskan akibat: "Simpan Pesanan", "Buka Shift", "Tutup Shift".
-- Status selalu teks dan ikon, bukan warna saja.
-- Dilarang memakai opacity untuk memudarkan TEKS (`opacity-*`, `text-*/60`, `text-white/70`, dan sejenisnya). Teks yang sekunder memakai token `--muted-foreground`, bukan transparansi.
+**Mode Gelap (rendah → tertinggi):**
+1. `#1E4D3B`
+2. `#257A5C`
+3. `#38D2A3`
+4. `#5EC444`
+5. `#86EFAC`
 
-## 8. Status implementasi
+Implementasi di `DashboardPage.tsx` memakai kelas `.heat-0` hingga `.heat-4` yang mengacu pada variabel CSS `--dashboard-level-0` hingga `--dashboard-level-4`, sehingga otomatis berganti saat `data-theme` / `.dark` berubah. Tidak ada hex hardcode di style inline. Label angka dan sumbu pakai token teks kontras. Legenda skala menyertakan swatch dan nilai. Badge unggulan memakai aksen kuning Jasuke (`#F4D026` terang / `#FACC15` gelap) secara proporsional.
 
-- Warna globals: token di `src/styles/globals.css` (tema terang pada `:root`, tema gelap pada `.dark`).
-- Halaman `/dev/tokens` (hanya terdaftar bila `import.meta.env.DEV`) menampilkan semua token di kedua tema berdampingan, skala huruf, radius, dan contoh tombol termasuk tombol nonaktif.
-- Tema tersedia setelah Langkah 3 (store, skrip anti-kedipan, kontrol PilihTema).
-- Foto lokal label "Ilustrasi AI" sampai foto PIC.
+---
+
+## 4. Kode Warna Kartu Shift (Dual Mode)
+
+Setiap kartu shift: permukaan bersih + border kiri tebal + badge pembeda, tidak ada blok gelap pekat.
+
+| Shift | Terang bg | Terang border | Terang teks badge | Gelap bg | Gelap border | Gelap teks badge |
+|---|---|---|---|---|---|---|
+| Pagi | `#FFFBEB` | `#F39C12` | `#854D0E` | `#26200D` | `#FACC15` | `#FDE047` |
+| Siang | `#ECFDF5` | `#38D2A3` | `#065F46` | `#102B24` | `#38D2A3` | `#6EE7C8` |
+| Malam | `#F0FDF4` | `#56A73E` | `#166534` | `#132B1D` | `#5EC444` | `#9DF08A` |
+
+Pagi digambarkan dengan kuning Jasuke, Siang dengan mint, Malam dengan tea. Status selalu teks + ikon (Sun / Sunrise / Moon), bukan warna saja.
+
+---
+
+## 5. Sidebar Aktif & Shift Chip
+
+**Sidebar menu aktif:**
+- Terang: bg `#EBF7E6`, border kiri `#56A73E`, teks & ikon `#1F5E16`.
+- Gelap: bg `#1B3622`, border kiri `#5EC444`, teks & ikon `#9DF08A`.
+
+**Chip shift aktif (header / topbar):**
+- Terang: bg `#E6FAF3`, border `#38D2A3`, teks `#0F5132`, titik indikator `#22C55E`.
+- Gelap: bg `#12332A`, border `#2B7A63`, teks `#A7F3D0`, titik indikator `#4ADE80`.
+
+Chip selalu ikon + label dan target sentuh 44 px.
+
+---
+
+## 6. Chatbot Melayang (`ChatbotPopup.tsx`)
+
+- Dipasang di `AppShell`, terlihat dari semua halaman tanpa meninggalkan halaman aktif.
+- Tombol melayang (FAB) pojok kanan bawah, aksen hijau brand, ikon kontras tinggi, animasi buka/tutup halus, responsif (panel compact desktop, drawer/sheet mobile).
+- State percakapan bertahan selama sesi (`localStorage` per pengguna).
+- Panel & bubble mengikuti tema aktif: bubble pengguna solid primær, asisten mint soft, typing dots mint, penolakan netral.
+- Tidak ada menu halaman Assistant duplikat di navigasi/router.
+
+---
+
+## 7. Implementasi
+
+- `src/styles/globals.css` — token `:root` dan `.dark`, variabel grafik, utilitas `.heat-*`, `.heat-swatch-*`.
+- `src/lib/tema.ts` — `KUNCI_PERSIST = "mrtea-tema:v2"`, `bersihkanPreferensiTema()`, meta warna browser.
+- `src/stores/tema-store.ts` — default `"terang"`, reset kunci lama saat rehydrate.
+- `src/components/PilihTema.tsx` — toggle terang/gelap/sistem dengan token aktif.
+- `src/components/layout/{BrandMark,Sidebar,ShiftChip}.tsx` — logo dua nada, sidebar, chip shift.

@@ -1,5 +1,5 @@
 import {
-  BookOpen, ChartLine, CircleHelp, ClipboardList, Clock, CupSoda, House, LayoutDashboard, MessageCircle, Package, Utensils, Wheat,
+  BookOpen, ChartLine, CircleHelp, ClipboardList, Clock, CupSoda, House, LayoutDashboard, Package, Utensils, Wheat,
 } from "lucide-react"
 import { flags } from "@/lib/flags"
 import { env } from "@/lib/env"
@@ -38,7 +38,6 @@ const master: NavItem[] = [
 ]
 
 const bantuan: NavItem[] = [
-  ...(flags.assistant ? [{ to: "/asisten", label: "Asisten Toko", icon: MessageCircle }] : []),
   { to: "/bantuan", label: "Bantuan", icon: CircleHelp },
 ]
 

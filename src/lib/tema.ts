@@ -1,7 +1,7 @@
 export type PilihanTema = "terang" | "gelap" | "sistem"
 export type TemaTerurai = Exclude<PilihanTema, "sistem">
 
-const WARNA_META: Record<TemaTerurai, string> = { terang: "#f6f7f4", gelap: "#141a17" }
+const WARNA_META: Record<TemaTerurai, string> = { terang: "#F4FBF8", gelap: "#141a17" }
 let hentikanListener: (() => void) | undefined
 
 export function resolusiTema(pilihan: PilihanTema, osGelap: boolean): TemaTerurai {

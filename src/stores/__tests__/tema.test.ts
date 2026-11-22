@@ -24,13 +24,13 @@ describe("terapkanTema DOM", () => {
     }
   })
 
-  it("menerapkan tema terang: hapus .dark, colorScheme light, theme-color #f6f7f4", () => {
+  it("menerapkan tema terang: hapus .dark, colorScheme light, theme-color #F4FBF8", () => {
     document.documentElement.classList.add("dark")
     const hasil = terapkanTema("terang")
     expect(hasil).toBe("terang")
     expect(document.documentElement.classList.contains("dark")).toBe(false)
     expect(document.documentElement.style.colorScheme).toBe("terang")
-    expect(document.querySelector('meta[name="theme-color"]')?.getAttribute("content")).toBe("#f6f7f4")
+    expect(document.querySelector('meta[name="theme-color"]')?.getAttribute("content")).toBe("#F4FBF8")
   })
 
   it("menerapkan tema gelap: pasang .dark, colorScheme gelap, theme-color #141a17", () => {

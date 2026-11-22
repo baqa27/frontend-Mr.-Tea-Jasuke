@@ -23,7 +23,6 @@ const MenuMasterPage = lazy(() => import("@/features/master/MenuMasterPage"))
 const IngredientMasterPage = lazy(() => import("@/features/master/IngredientMasterPage"))
 const ForecastPage = lazy(() => import("@/features/forecast/ForecastPage"))
 const DashboardPage = lazy(() => import("@/features/dashboard/DashboardPage"))
-const AssistantPage = lazy(() => import("@/features/assistant/AssistantPage"))
 const HelpPage = lazy(() => import("@/features/help/HelpPage"))
 
 const routes: RouteObject[] = [
@@ -47,7 +46,6 @@ const routes: RouteObject[] = [
           },
           { path: "/pesanan", element: <OrdersPage /> },
           { path: "/stok", element: <StockPage /> },
-          ...(flags.assistant ? [{ path: "/asisten", element: <AssistantPage /> }] : []),
           { path: "/bantuan", element: <HelpPage /> },
           ...(import.meta.env.DEV ? [{ path: "/dev/tokens", element: <DevTokens /> }] : []),
           {

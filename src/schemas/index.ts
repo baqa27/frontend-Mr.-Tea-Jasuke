@@ -76,7 +76,7 @@ export const menuSchema = z
       )
       .min(1, "Takaran minimal satu bahan."),
     bisaAturGula: z.boolean().optional(),
-    fotoUrl: z.string().optional().refine((v) => !v || v.startsWith("/menu/") || v.startsWith("data:image/") || v.startsWith("https://"), "Foto harus diawali dengan /menu/ atau data:image/ atau https://"),
+    fotoUrl: z.string().optional().refine((v) => !v || v.startsWith("/menu/") || /^data:image\/(jpeg|png|webp);base64,/.test(v) || v.startsWith("https://"), "Foto harus diawali dengan /menu/ atau data:image/jpeg|png|webp atau https://"),
   })
   .superRefine((v, ctx) => {
     const seen = new Set<string>()

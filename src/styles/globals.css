@@ -5,14 +5,14 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
-  Token warna Mr. Tea & Jasuke
-  - kertas  : latar netral sedikit kehijauan, bukan krem
-  - tinta   : teks utama hijau sangat gelap
-  - teh     : warna primer, seduhan teh pekat
-  - jagung  : aksen terbatas, hanya untuk nota PoS dan penanda shift aktif
-  - kat-*   : warna kategori menu (strip kartu, tile kategori, titik nota),
-     turunan rasa teh, jagung, dan kemasan paket; bukan warna status.
-     Hijau hanya untuk status --ok supaya tidak tertukar merek es teh lain.
+  Token warna Mr. Tea & Jasuke, mengikuti poster brand 2026
+  - kertas  : canvas putih mint, bukan krem
+  - tinta   : teks utama hampir hitam netral (#111827)
+  - teh     : warna primer Tea Green (#56A73E)
+  - jagung  : aksen Corn Yellow (#F4D026), jagung-muda untuk nota PoS dan penanda shift pagi
+  - ok      : Fresh Mint (#38D2A3) untuk status berjalan, tint #ECFDF5
+  - warn    : Warm Amber (#F39C12) untuk shift pagi dan catatan perlu perhatian
+  - kat-*   : warna kategori menu (strip kartu, tile kategori, titik nota)
 */
 :root {
   --radius: 0.5rem;
@@ -22,33 +22,33 @@
   --radius-sheet: 16px;
   --radius-foto: 10px;
 
-  --kertas: #f6f7f4;
-  --kartu: #ffffff;
-  --tinta: #1b2420;
-  --tinta-tetap: #1b2420;
-  --abu: #58635d;
-  --garis: #dadfd6;
-  --muted: #eceee8;
-  --teh: #8a3b12;
-  --teh-tua: #6e2d0c;
-  --teh-muda: #f6e7dc;
-  --jagung: #f2b705;
-  --jagung-muda: #fff3c4;
-  --ok: #1f7a4d;
-  --ok-muda: #ddf1e5;
-  --ok-teks: #14563a;
+  --kertas: #F4FBF8;
+  --kartu: #FFFFFF;
+  --tinta: #111827;
+  --tinta-tetap: #111827;
+  --abu: #1F5654;
+  --garis: #DADFD6;
+  --muted: #F4FBF8;
+  --teh: #56A73E;
+  --teh-tua: #458B31;
+  --teh-muda: #EBFBF5;
+  --jagung: #F4D026;
+  --jagung-muda: #FFFBEB;
+  --ok: #38D2A3;
+  --ok-muda: #ECFDF5;
+  --ok-teks: #1F5654;
   --bahaya: #b42318;
   --bahaya-muda: #fde4e1;
-  --warn: #8a4f00;
-  --warn-muda: #fdf0d5;
+  --warn: #F39C12;
+  --warn-muda: #FFFBEB;
   --info: #1e4fa3;
   --info-muda: #e2eafa;
   --shopee: #9a3412;
   --shopee-muda: #fff0e6;
-  --kat-teh: #8a3b12;
-  --kat-teh-muda: #f6e7dc;
-  --kat-jasuke: #9a6b00;
-  --kat-jasuke-muda: #fff3c4;
+  --kat-teh: #56A73E;
+  --kat-teh-muda: #EBFBF5;
+  --kat-jasuke: #F4D026;
+  --kat-jasuke-muda: #FFFBEB;
   --kat-paket: #2d5a87;
   --kat-paket-muda: #e3ecf6;
 
@@ -59,7 +59,7 @@
   --popover: var(--kartu);
   --popover-foreground: var(--tinta);
   --primary: var(--teh);
-  --primary-foreground: #fff8f0;
+  --primary-foreground: #FFFFFF;
   --secondary: var(--muted);
   --secondary-foreground: var(--tinta);
   --muted-foreground: var(--abu);
@@ -77,30 +77,30 @@
   --kertas: #141a17;
   --kartu: #1c2420;
   --tinta: #eef1ec;
-  --tinta-tetap: #1b2420;
+  --tinta-tetap: #111827;
   --abu: #a9b3ad;
   --garis: #2e3833;
   --muted: #252f2a;
-  --teh: #e9a06f;
-  --teh-tua: #f3c3a1;
-  --teh-muda: #3a2418;
-  --jagung: #f2b705;
-  --jagung-muda: #3a3006;
-  --ok: #4cc38a;
-  --ok-muda: #123826;
-  --ok-teks: #bdeed3;
+  --teh: #4CAF50;
+  --teh-tua: #2E6B20;
+  --teh-muda: #1B4332;
+  --jagung: #F4D026;
+  --jagung-muda: #2E240A;
+  --ok: #38D2A3;
+  --ok-muda: #064E3B;
+  --ok-teks: #D1FAE5;
   --bahaya: #ff8a7a;
   --bahaya-muda: #3d1712;
-  --warn: #f0b35a;
-  --warn-muda: #3a2a0c;
+  --warn: #F39C12;
+  --warn-muda: #5B3A0A;
   --info: #8fb3ff;
   --info-muda: #172645;
   --shopee: #ff9a66;
   --shopee-muda: #3a1d10;
-  --kat-teh: #e9a06f;
-  --kat-teh-muda: #3a2418;
-  --kat-jasuke: #e9c25a;
-  --kat-jasuke-muda: #3a3006;
+  --kat-teh: #56A73E;
+  --kat-teh-muda: #1B4332;
+  --kat-jasuke: #F4D026;
+  --kat-jasuke-muda: #2E240A;
   --kat-paket: #8fb7e0;
   --kat-paket-muda: #172b40;
 
@@ -111,14 +111,14 @@
   --popover: var(--kartu);
   --popover-foreground: var(--tinta);
   --primary: var(--teh);
-  --primary-foreground: #1b120c;
+  --primary-foreground: #FFFFFF;
   --secondary: var(--muted);
   --secondary-foreground: var(--tinta);
   --muted-foreground: var(--abu);
   --accent: var(--muted);
   --accent-foreground: var(--tinta);
   --destructive: var(--bahaya);
-  --destructive-foreground: #1b2420;
+  --destructive-foreground: #FFFFFF;
   --border: var(--garis);
   --input: var(--garis);
   --ring: var(--jagung);

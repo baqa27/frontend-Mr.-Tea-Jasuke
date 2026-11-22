@@ -54,7 +54,16 @@ export default function ShiftRecapPage() {
         <Kotak label="Shopee Food" nilai={rupiah(r.omzetPerKanal.shopee_food)} />
         <Kotak label="Bahan berselisih" nilai={`${berselisih} dari ${r.stok.length}`} />
       </div>
-      <Panel title="Stok per bahan" bodyClassName="p-0">
+      <Panel
+        title={
+          <span className="flex items-center gap-2">
+            <span className={cn("size-2.5 rounded-full", r.nama === "pagi" ? "bg-warn" : r.nama === "siang" ? "bg-ok" : "bg-teh")} aria-hidden />
+            Stok per bahan
+          </span>
+        }
+        bodyClassName="p-0"
+        className={r.nama === "pagi" ? "border-l-4 border-l-warn" : r.nama === "siang" ? "border-l-4 border-l-ok" : "border-l-4 border-l-teh"}
+      >
         <ResponsiveTable
           flush
           dense

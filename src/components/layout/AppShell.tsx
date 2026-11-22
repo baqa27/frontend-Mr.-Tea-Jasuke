@@ -3,6 +3,7 @@ import { Outlet, ScrollRestoration, useLocation } from "react-router"
 import { ErrorBoundary } from "@/components/feedback/ErrorBoundary"
 import { NetworkBanners } from "@/components/feedback/NetworkBanners"
 import { PageSkeleton } from "@/components/feedback/states"
+import { ChatbotPopup } from "@/features/assistant/ChatbotPopup"
 import { useOnboarding } from "@/features/onboarding/tour"
 import { BottomNav } from "./BottomNav"
 import { BrandMark } from "./BrandMark"
@@ -40,6 +41,7 @@ export function AppShell() {
         </main>
         <BottomNav className="lg:hidden" />
       </div>
+      <ChatbotPopup />
     </div>
   )
 }

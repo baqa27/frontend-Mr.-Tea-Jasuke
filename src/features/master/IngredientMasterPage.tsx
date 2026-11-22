@@ -75,8 +75,10 @@ export default function IngredientMasterPage() {
             { key: "tol", label: "Toleransi", header: <span className="inline-flex items-center gap-1">Toleransi <HelpTooltip istilah="Toleransi selisih">{ISTILAH.toleransi}</HelpTooltip></span>, align: "right", cell: (b) => <span className="num">{angka(b.toleransiSelisih, 2)}</span> },
             {
               key: "aksi", label: "", header: <span className="sr-only">Aksi</span>, align: "right",
+              headerClassName: "w-[216px]",
+              className: "w-[216px]",
               cell: (b) => (
-                <div className="flex justify-end gap-1">
+                <div className="flex justify-end items-center gap-1 whitespace-nowrap">
                   <Button variant="ghost" size="sm" onClick={() => setEdit(b)}><Pencil />Ubah</Button>
                   {b.aktif ? (
                     <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-bahaya" onClick={() => setNonaktif(b)}>Nonaktifkan</Button>

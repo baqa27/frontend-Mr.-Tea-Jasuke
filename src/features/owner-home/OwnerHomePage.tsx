@@ -46,7 +46,7 @@ function OmzetHariIni({ tanggal }: { tanggal: string }) {
   if (error && !belumAda) return <ErrorState error={error} onRetry={() => refetch()} />
   const omzet = data?.omzet ?? 0
   return (
-    <section className="rounded-xl border bg-card p-5 lg:col-span-7 lg:row-span-2">
+    <section className="rounded-xl border bg-card p-5 lg:col-span-7">
       <div className="flex items-center justify-between gap-2">
         <h2 className="font-semibold">Omzet hari ini</h2>
         <span className="rounded-full bg-muted px-2 py-1 text-xs font-semibold text-muted-foreground">{data?.status === "lengkap" ? "Final" : "Sementara"}</span>
@@ -99,5 +99,5 @@ function BahanMenipis() {
 }
 
 function Pintasan() {
-  return <section className="rounded-xl border border-dashed bg-card p-5 lg:col-span-4"><h2 className="font-semibold">Pintasan</h2><div className="mt-2 grid"> <Link to="/pemilik/rekap" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-teh hover:underline"><BookOpen className="size-4" aria-hidden />Rekap harian</Link><Link to="/pemilik/perkiraan-belanja" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-teh hover:underline"><ChartLine className="size-4" aria-hidden />Perkiraan belanja</Link>{dashboardTersedia && <Link to="/pemilik/dasbor" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-teh hover:underline"><LayoutDashboard className="size-4" aria-hidden />Dasbor</Link>}</div></section>
+  return <section className="rounded-xl border border-dashed bg-card p-5 lg:col-span-5"><h2 className="font-semibold">Pintasan</h2><div className="mt-2 grid"> <Link to="/pemilik/rekap" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-teh hover:underline"><BookOpen className="size-4" aria-hidden />Rekap harian</Link><Link to="/pemilik/perkiraan-belanja" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-teh hover:underline"><ChartLine className="size-4" aria-hidden />Perkiraan belanja</Link>{dashboardTersedia && <Link to="/pemilik/dasbor" className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-teh hover:underline"><LayoutDashboard className="size-4" aria-hidden />Dasbor</Link>}</div></section>
 }
